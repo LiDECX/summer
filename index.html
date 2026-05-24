@@ -3,37 +3,53 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Summer Countdown — LiDECX</title>
+  <title>До лета 2026 — Summer Countdown</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet"/>
   <style>
     :root {
-      --bg: #0a0a0a;
-      --surface: #111111;
-      --border: #1e1e1e;
-      --accent: #e8e8e8;
-      --muted: #555;
-      --text: #999;
-      --bright: #fff;
-      --green: #4ade80;
-      --sun: #FFD166;
+      --bg: #08080a;
+      --bg2: #0d0d10;
+      --surface: #111116;
+      --surface2: #16161c;
+      --border: #1c1c24;
+      --border2: #252530;
+      --muted: #44445a;
+      --text: #7a7a96;
+      --bright: #e8e8f0;
+      --white: #ffffff;
+      --sun: #fbbf24;
+      --sun2: #f59e0b;
+      --sun3: #fde68a;
+      --green: #34d399;
+      --green2: #10b981;
+      --blue: #60a5fa;
+      --red: #f87171;
+      --purple: #a78bfa;
     }
-
     [data-theme="light"] {
-      --bg: #ffffff;
-      --surface: #f5f5f5;
-      --border: #e5e5e5;
-      --accent: #1a1a1a;
-      --muted: #888;
-      --text: #444;
-      --bright: #000;
-      --green: #16a34a;
-      --sun: #f59e0b;
+      --bg: #fafafa;
+      --bg2: #f5f5f7;
+      --surface: #ffffff;
+      --surface2: #f0f0f5;
+      --border: #e5e5ec;
+      --border2: #d8d8e5;
+      --muted: #aaaabc;
+      --text: #666680;
+      --bright: #18181e;
+      --white: #18181e;
+      --sun: #d97706;
+      --sun2: #b45309;
+      --sun3: #92400e;
+      --green: #059669;
+      --green2: #047857;
+      --blue: #2563eb;
+      --red: #dc2626;
+      --purple: #7c3aed;
     }
-
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
+    html { scroll-behavior: smooth; }
     body {
       background: var(--bg);
       color: var(--text);
@@ -41,314 +57,681 @@
       font-weight: 400;
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
-      transition: background 0.2s ease, color 0.2s ease;
+      transition: background 0.25s ease, color 0.25s ease;
+      min-height: 100vh;
     }
+    .mono { font-family: 'JetBrains Mono', monospace; }
+    .wrap { max-width: 700px; margin: 0 auto; padding: 0 20px; }
 
-    .container {
-      max-width: 680px;
-      margin: 0 auto;
-      padding: 0 24px;
-    }
-
-    header {
-      padding: 24px 0;
-      display: flex;
-      justify-content: flex-end;
-    }
-
-    .theme-toggle {
-      background: none;
-      border: 1px solid var(--border);
-      color: var(--bright);
-      cursor: pointer;
-      padding: 6px 12px;
-      border-radius: 6px;
+    #hero { padding: 56px 0 32px; }
+    h1 {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.7rem;
-      transition: all 0.15s;
+      font-size: clamp(2.2rem, 8vw, 3rem);
+      font-weight: 700; color: var(--bright);
+      line-height: 1.1; margin-bottom: 6px;
     }
-
-    .theme-toggle:hover {
+    h1 span { color: var(--sun); }
+    .hero-sub { font-size: 0.9rem; color: var(--muted); margin-bottom: 36px; }
+    .live-clock {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem; color: var(--text);
+      padding: 10px 16px;
       background: var(--surface);
-      border-color: var(--muted);
-    }
-
-    #hero { padding: 40px 0 60px; }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.72rem;
-      color: var(--muted);
       border: 1px solid var(--border);
-      padding: 6px 12px;
-      border-radius: 6px;
+      border-radius: 8px;
+      display: inline-block;
       margin-bottom: 32px;
     }
+    .live-clock span { color: var(--bright); }
 
-    .hero-name {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: clamp(2rem, 6vw, 2.5rem);
-      font-weight: 600;
-      color: var(--bright);
-      line-height: 1.2;
-      margin-bottom: 8px;
-    }
-
-    .hero-sub {
-      font-size: 1rem;
-      color: var(--muted);
-      margin-bottom: 40px;
-    }
-
-    .progress-container {
+    .countdown-block {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 12px;
+      border-radius: 14px;
       padding: 24px;
       margin-bottom: 12px;
     }
-
     .label-row {
-      display: flex;
-      justify-content: space-between;
+      display: flex; justify-content: space-between; align-items: center;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.7rem;
-      margin-bottom: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
+      font-size: 0.68rem; color: var(--muted);
+      margin-bottom: 14px;
+      text-transform: uppercase; letter-spacing: 0.06em;
     }
-
-    .pct-value { color: var(--sun); font-weight: 600; }
-
-    .track {
-      height: 4px;
-      background: var(--border);
-      border-radius: 2px;
-      overflow: hidden;
-    }
-
+    .pct { color: var(--sun); font-weight: 600; font-size: 0.85rem; }
+    .track { height: 3px; background: var(--border2); border-radius: 2px; overflow: hidden; }
     .fill {
-      height: 100%;
+      height: 100%; background: linear-gradient(90deg, var(--sun2), var(--sun));
+      width: 0%; transition: width 0.5s ease;
+      border-radius: 2px; position: relative;
+    }
+    .fill::after {
+      content: ''; position: absolute; right: 0; top: 50%;
+      transform: translateY(-50%);
+      width: 8px; height: 8px; border-radius: 50%;
       background: var(--sun);
-      width: 0%;
-      transition: width 0.3s ease;
+      box-shadow: 0 0 8px var(--sun);
     }
 
-    .grid {
+    .digit-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-      margin-bottom: 12px;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px; margin-bottom: 10px;
     }
-
-    .card {
+    .digit-card {
       background: var(--surface);
       border: 1px solid var(--border);
-      padding: 20px;
       border-radius: 12px;
+      padding: 18px 12px 14px;
       text-align: center;
-      transition: background 0.2s ease, border-color 0.2s ease;
+      transition: border-color 0.2s;
+      position: relative; overflow: hidden;
     }
-
-    .unit-val {
+    .digit-card::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, transparent 60%, rgba(251,191,36,0.03));
+      pointer-events: none;
+    }
+    .digit-val {
       display: block;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 1.5rem;
-      color: var(--bright);
-      font-weight: 600;
+      font-size: clamp(1.5rem, 5vw, 2rem);
+      font-weight: 700; color: var(--bright);
+      line-height: 1; margin-bottom: 8px;
+      transition: transform 0.1s ease;
     }
-
-    .unit-label {
-      font-size: 0.65rem;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
+    .digit-val.bump { transform: scale(1.15); }
+    .digit-lbl {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem; color: var(--muted);
+      text-transform: uppercase; letter-spacing: 0.1em;
+    }
+    .digit-sub {
+      font-size: 0.6rem; color: var(--border2);
       margin-top: 4px;
     }
 
-    .season-box {
-      border-top: 1px solid var(--border);
-      margin-top: 40px;
-      padding-top: 32px;
-      display: flex;
-      flex-direction: column;
+    .sec-head {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem; color: var(--muted);
+      text-transform: uppercase; letter-spacing: 0.1em;
+      margin: 32px 0 12px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .sec-head::after {
+      content: ''; flex: 1; height: 1px;
+      background: var(--border);
+    }
+
+    .timeline { display: flex; flex-direction: column; gap: 0; }
+    .tl-item {
+      display: flex; align-items: stretch;
       gap: 16px;
     }
-
-    .season-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 0.85rem;
-      transition: all 0.3s ease;
+    .tl-col {
+      display: flex; flex-direction: column; align-items: center;
+      width: 32px; flex-shrink: 0;
     }
-
-    .season-item.active { color: var(--green); }
-    .season-item.active .season-name { color: var(--green); font-weight: 500; }
-    .season-item.done .season-status { color: var(--muted); }
-
-    .season-name { color: var(--accent); font-family: 'JetBrains Mono', monospace; }
-    .season-status { font-size: 0.75rem; }
-
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 28px 0;
-      margin-top: 60px;
+    .tl-dot {
+      width: 12px; height: 12px; border-radius: 50%;
+      background: var(--border2); border: 2px solid var(--border2);
+      flex-shrink: 0; margin-top: 4px;
+      transition: all 0.3s;
     }
-
-    .footer-inner {
-      max-width: 680px;
-      margin: 0 auto;
-      padding: 0 24px;
-      display: flex;
-      justify-content: space-between;
+    .tl-dot.done { background: var(--green); border-color: var(--green); }
+    .tl-dot.active {
+      background: var(--sun); border-color: var(--sun);
+      box-shadow: 0 0 12px rgba(251,191,36,0.5);
+      animation: pulse-glow 2s ease-in-out infinite;
+    }
+    @keyframes pulse-glow {
+      0%,100% { box-shadow: 0 0 8px rgba(251,191,36,0.4); }
+      50% { box-shadow: 0 0 20px rgba(251,191,36,0.8); }
+    }
+    .tl-line {
+      flex: 1; width: 2px; background: var(--border);
+      border-radius: 1px; min-height: 40px;
+    }
+    .tl-line.done { background: var(--green); }
+    .tl-line.partial {
+      background: linear-gradient(to bottom, var(--green), var(--border));
+    }
+    .tl-content {
+      flex: 1; padding: 2px 0 28px;
+    }
+    .tl-header {
+      display: flex; justify-content: space-between;
+      align-items: center; margin-bottom: 4px;
+    }
+    .tl-name {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.7rem;
-      color: var(--muted);
+      font-size: 0.8rem; font-weight: 600;
+      color: var(--bright);
+    }
+    .tl-status {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+    }
+    .tl-status.done { color: var(--green); }
+    .tl-status.active { color: var(--sun); }
+    .tl-status.wait { color: var(--muted); }
+    .tl-date { font-size: 0.72rem; color: var(--muted); }
+    .tl-mini-bar {
+      margin-top: 8px; height: 2px;
+      background: var(--border);
+      border-radius: 1px; overflow: hidden;
+    }
+    .tl-mini-fill {
+      height: 100%; background: var(--sun);
+      border-radius: 1px; transition: width 0.5s ease;
+    }
+    .tl-mini-fill.done { background: var(--green); }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px; padding: 18px;
+    }
+    .stat-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem; color: var(--muted);
+      text-transform: uppercase; letter-spacing: 0.08em;
+      margin-bottom: 8px;
+    }
+    .stat-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.1rem; font-weight: 600;
+      color: var(--bright);
+    }
+    .stat-note { font-size: 0.7rem; color: var(--muted); margin-top: 4px; }
+
+    .tz-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px; padding: 16px 20px;
+      margin-bottom: 32px;
+    }
+    .tz-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .tz-row:last-child { border-bottom: none; }
+    .tz-name { font-size: 0.78rem; color: var(--text); }
+    .tz-time {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem; color: var(--bright);
     }
 
-    @media (min-width: 480px) {
-      .grid { grid-template-columns: repeat(4, 1fr); }
+    .milestones { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
+    .ms-item {
+      display: flex; align-items: center; gap: 12px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px; padding: 12px 16px;
+      transition: border-color 0.2s;
     }
+    .ms-item.reached { border-color: var(--green); }
+    .ms-icon {
+      font-size: 1rem; width: 24px; text-align: center;
+    }
+    .ms-info { flex: 1; }
+    .ms-name { font-size: 0.8rem; color: var(--bright); }
+    .ms-days { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; color: var(--muted); margin-top: 2px; }
+    .ms-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem; padding: 3px 8px;
+      border-radius: 100px;
+    }
+    .ms-badge.reached { background: rgba(52,211,153,0.1); color: var(--green); border: 1px solid rgba(52,211,153,0.2); }
+    .ms-badge.waiting { background: var(--surface2); color: var(--muted); border: 1px solid var(--border); }
+
+    .toast {
+      position: fixed; bottom: 24px; right: 24px;
+      background: var(--surface2); border: 1px solid var(--border2);
+      color: var(--bright); border-radius: 10px;
+      padding: 12px 18px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      transform: translateY(80px); opacity: 0;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      z-index: 999; pointer-events: none;
+      backdrop-filter: blur(12px);
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+
+    @media (max-width: 480px) {
+      .digit-grid { grid-template-columns: repeat(2, 1fr); }
+      .stats-grid { grid-template-columns: 1fr; }
+    }
+
+    .confetti-canvas {
+      position: fixed; inset: 0; z-index: 9999;
+      pointer-events: none;
+    }
+
+    .theme-fade * { transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease !important; }
+
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
   </style>
 </head>
 <body data-theme="dark">
 
-  <div class="container">
-    <header>
-      <button class="theme-toggle" id="themeToggle">LIGHT</button>
-    </header>
-  </div>
+<canvas class="confetti-canvas" id="confettiCanvas"></canvas>
+
+<div class="wrap">
 
   <section id="hero">
-    <div class="container">
-      <div class="badge">✦ AUTOMATIC SYSTEM</div>
-      <h1 class="hero-name">Summer Countdown</h1>
-      <p class="hero-sub">Автоматический трекер времен года</p>
+    <h1>До <span>лета</span><br>осталось</h1>
+    <p class="hero-sub">1 июня 2026 — точный отсчёт в реальном времени</p>
+    <div class="live-clock">
+      сейчас <span id="clockDisp">--:--:--</span> &nbsp;·&nbsp; <span id="dateDisp">--.--.----</span>
+    </div>
 
-      <div class="progress-container">
-        <div class="label-row">
-          <span>Прогресс до лета</span>
-          <span class="pct-value" id="pct">0.00%</span>
-        </div>
-        <div class="track">
-          <div class="fill" id="mainFill"></div>
-        </div>
+    <div class="countdown-block">
+      <div class="label-row">
+        <span>Прогресс до лета</span>
+        <span class="pct" id="pct">0.000%</span>
       </div>
-
-      <div class="grid">
-        <div class="card"><span class="unit-val" id="cDays">0</span><span class="unit-label">дней</span></div>
-        <div class="card"><span class="unit-val" id="cHours">0</span><span class="unit-label">часов</span></div>
-        <div class="card"><span class="unit-val" id="cMin">0</span><span class="unit-label">минут</span></div>
-        <div class="card"><span class="unit-val" id="cSec">0</span><span class="unit-label">секунд</span></div>
-      </div>
-
-      <div class="season-box">
-        <div class="season-item" id="s-autumn">
-          <span class="season-name">Осень</span>
-          <span class="season-status" id="st-autumn">ожидание</span>
-        </div>
-        <div class="season-item" id="s-winter">
-          <span class="season-name">Зима</span>
-          <span class="season-status" id="st-winter">ожидание</span>
-        </div>
-        <div class="season-item" id="s-spring">
-          <span class="season-name">Весна</span>
-          <span class="season-status" id="st-spring">ожидание</span>
-        </div>
-        <div class="season-item" id="s-summer">
-          <span class="season-name">Лето</span>
-          <span class="season-status" id="st-summer">скоро</span>
-        </div>
+      <div class="track"><div class="fill" id="mainFill"></div></div>
+      <div style="display:flex;justify-content:space-between;margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:var(--muted);">
+        <span>01.09.2025</span>
+        <span id="midLabel">—</span>
+        <span>01.06.2026</span>
       </div>
     </div>
+
+    <div class="digit-grid">
+      <div class="digit-card">
+        <span class="digit-val" id="cDays">---</span>
+        <div class="digit-lbl">дней</div>
+        <div class="digit-sub" id="dSub">—</div>
+      </div>
+      <div class="digit-card">
+        <span class="digit-val" id="cHours">--</span>
+        <div class="digit-lbl">часов</div>
+        <div class="digit-sub" id="hSub">—</div>
+      </div>
+      <div class="digit-card">
+        <span class="digit-val" id="cMin">--</span>
+        <div class="digit-lbl">минут</div>
+        <div class="digit-sub" id="mSub">—</div>
+      </div>
+      <div class="digit-card">
+        <span class="digit-val" id="cSec">--</span>
+        <div class="digit-lbl">секунд</div>
+        <div class="digit-sub" id="sSub">—</div>
+      </div>
+    </div>
+
   </section>
 
-  <footer>
-    <div class="footer-inner">
-      <span>© <span id="year"></span> LiDECX</span>
-      <span>v1.2.0</span>
+  <div class="sec-head">ТАЙМЛАЙН СЕЗОНОВ</div>
+  <div class="timeline">
+
+    <div class="tl-item">
+      <div class="tl-col">
+        <div class="tl-dot" id="dot-autumn"></div>
+        <div class="tl-line" id="line-autumn"></div>
+      </div>
+      <div class="tl-content">
+        <div class="tl-header">
+          <span class="tl-name">🍂 Осень</span>
+          <span class="tl-status wait" id="st-autumn">ожидание</span>
+        </div>
+        <div class="tl-date">01.09.2025 — 01.12.2025 · 91 день</div>
+        <div class="tl-mini-bar"><div class="tl-mini-fill" id="fill-autumn" style="width:0%"></div></div>
+      </div>
     </div>
-  </footer>
 
-  <script>
-    const themeToggle = document.getElementById('themeToggle');
-    const body = document.body;
+    <div class="tl-item">
+      <div class="tl-col">
+        <div class="tl-dot" id="dot-winter"></div>
+        <div class="tl-line" id="line-winter"></div>
+      </div>
+      <div class="tl-content">
+        <div class="tl-header">
+          <span class="tl-name">❄️ Зима</span>
+          <span class="tl-status wait" id="st-winter">ожидание</span>
+        </div>
+        <div class="tl-date">01.12.2025 — 01.03.2026 · 90 дней</div>
+        <div class="tl-mini-bar"><div class="tl-mini-fill" id="fill-winter" style="width:0%"></div></div>
+      </div>
+    </div>
 
-    const savedTheme = localStorage.getItem('theme') || 'dark';
-    body.setAttribute('data-theme', savedTheme);
-    themeToggle.textContent = savedTheme === 'dark' ? 'LIGHT' : 'DARK';
+    <div class="tl-item">
+      <div class="tl-col">
+        <div class="tl-dot" id="dot-spring"></div>
+        <div class="tl-line" id="line-spring"></div>
+      </div>
+      <div class="tl-content">
+        <div class="tl-header">
+          <span class="tl-name">🌸 Весна</span>
+          <span class="tl-status wait" id="st-spring">ожидание</span>
+        </div>
+        <div class="tl-date">01.03.2026 — 01.06.2026 · 92 дня</div>
+        <div class="tl-mini-bar"><div class="tl-mini-fill" id="fill-spring" style="width:0%"></div></div>
+      </div>
+    </div>
 
-    themeToggle.addEventListener('click', () => {
-      const isDark = body.getAttribute('data-theme') === 'dark';
-      const newTheme = isDark ? 'light' : 'dark';
-      body.setAttribute('data-theme', newTheme);
-      themeToggle.textContent = isDark ? 'DARK' : 'LIGHT';
-      localStorage.setItem('theme', newTheme);
+    <div class="tl-item">
+      <div class="tl-col">
+        <div class="tl-dot" id="dot-summer"></div>
+      </div>
+      <div class="tl-content" style="padding-bottom:0">
+        <div class="tl-header">
+          <span class="tl-name">☀️ Лето</span>
+          <span class="tl-status wait" id="st-summer">ожидание</span>
+        </div>
+        <div class="tl-date">01.06.2026</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="sec-head">СТАТИСТИКА</div>
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-label">Прошло с начала отсчёта</div>
+      <div class="stat-val" id="statPassed">—</div>
+      <div class="stat-note" id="statPassedSub">c 01 сентября 2025</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">До лета в процентах</div>
+      <div class="stat-val" id="statPct2">—</div>
+      <div class="stat-note">от всего периода осень→лето</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Скорость времени</div>
+      <div class="stat-val" id="statSpeed">—</div>
+      <div class="stat-note">% прогресса в сутки</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Биений сердца до лета</div>
+      <div class="stat-val" id="statHeartbeats">—</div>
+      <div class="stat-note">при 75 уд/мин</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Рабочих дней до лета</div>
+      <div class="stat-val" id="statWorkdays">—</div>
+      <div class="stat-note">пн–пт, без учёта праздников</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Выходных до лета</div>
+      <div class="stat-val" id="statWeekends">—</div>
+      <div class="stat-note">суббота и воскресенье</div>
+    </div>
+  </div>
+
+  <div class="sec-head">ЦЕЛИ</div>
+  <div class="milestones" id="milestones"></div>
+
+  <div class="sec-head">ЧАСОВЫЕ ПОЯСА</div>
+  <div class="tz-block">
+    <div class="tz-row">
+      <span class="tz-name">🇷🇺 Москва (MSK, UTC+3)</span>
+      <span class="tz-time mono" id="tzMSK">--:--:--</span>
+    </div>
+    <div class="tz-row">
+      <span class="tz-name">🇬🇧 Лондон (GMT/BST)</span>
+      <span class="tz-time mono" id="tzLON">--:--:--</span>
+    </div>
+    <div class="tz-row">
+      <span class="tz-name">🇺🇸 Нью-Йорк (ET)</span>
+      <span class="tz-name">
+        <span class="tz-time mono" id="tzNY">--:--:--</span>
+      </span>
+    </div>
+    <div class="tz-row">
+      <span class="tz-name">🇯🇵 Токио (JST, UTC+9)</span>
+      <span class="tz-time mono" id="tzTOK">--:--:--</span>
+    </div>
+    <div class="tz-row">
+      <span class="tz-name">🇦🇺 Сидней (AEST/AEDT)</span>
+      <span class="tz-time mono" id="tzSYD">--:--:--</span>
+    </div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const SUMMER   = new Date("2026-06-01T00:00:00").getTime();
+const AUTUMN   = new Date("2025-09-01T00:00:00").getTime();
+const WINTER   = new Date("2025-12-01T00:00:00").getTime();
+const SPRING   = new Date("2026-03-01T00:00:00").getTime();
+const TOTAL    = SUMMER - AUTUMN;
+
+const GOALS = [
+  { days: 200, icon: '📅', name: '200 дней до лета' },
+  { days: 150, icon: '🗓️', name: '150 дней до лета' },
+  { days: 100, icon: '💯', name: '100 дней до лета' },
+  { days: 90,  icon: '3️⃣', name: '90 дней до лета' },
+  { days: 60,  icon: '2️⃣', name: '60 дней до лета' },
+  { days: 30,  icon: '1️⃣', name: '30 дней до лета' },
+  { days: 14,  icon: '🔥', name: '2 недели до лета' },
+  { days: 7,   icon: '⚡', name: '1 неделя до лета' },
+  { days: 1,   icon: '🌅', name: '1 день до лета' },
+];
+
+let useUTC = false;
+let summerArrived = false;
+
+const body = document.body;
+const savedTheme = localStorage.getItem('theme') || 'dark';
+body.setAttribute('data-theme', savedTheme);
+
+function showToast(msg, dur = 2500) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), dur);
+}
+
+function renderGoals(daysLeft) {
+  const el = document.getElementById('milestones');
+  el.innerHTML = '';
+  GOALS.forEach(m => {
+    const reached = daysLeft <= m.days;
+    const div = document.createElement('div');
+    div.className = 'ms-item' + (reached ? ' reached' : '');
+    div.innerHTML = `
+      <div class="ms-icon">${m.icon}</div>
+      <div class="ms-info">
+        <div class="ms-name">${m.name}</div>
+        <div class="ms-days">${reached ? `достигнуто (оставалось ${m.days} дн.)` : `ещё ${daysLeft - m.days} дн. до цели`}</div>
+      </div>
+      <span class="ms-badge ${reached ? 'reached' : 'waiting'}">${reached ? '✓' : 'ЖДЁМ'}</span>`;
+    el.appendChild(div);
+  });
+}
+
+function countWorkWeekdays(fromMs, toMs) {
+  let workdays = 0, weekends = 0;
+  const oneDay = 86400000;
+  let cur = fromMs;
+  while (cur < toMs) {
+    const d = new Date(cur).getDay();
+    if (d === 0 || d === 6) weekends++; else workdays++;
+    cur += oneDay;
+  }
+  return { workdays, weekends };
+}
+
+function tzTime(tz) {
+  return new Date().toLocaleTimeString('ru-RU', { timeZone: tz, hour12: false });
+}
+function updateTimezones() {
+  document.getElementById('tzMSK').textContent = tzTime('Europe/Moscow');
+  document.getElementById('tzLON').textContent = tzTime('Europe/London');
+  document.getElementById('tzNY').textContent  = tzTime('America/New_York');
+  document.getElementById('tzTOK').textContent = tzTime('Asia/Tokyo');
+  document.getElementById('tzSYD').textContent = tzTime('Australia/Sydney');
+}
+
+const canvas = document.getElementById('confettiCanvas');
+const ctx = canvas.getContext('2d');
+let particles = [];
+function launchConfetti() {
+  canvas.width = innerWidth; canvas.height = innerHeight;
+  for (let i = 0; i < 180; i++) {
+    particles.push({
+      x: Math.random() * innerWidth,
+      y: Math.random() * innerHeight - innerHeight,
+      r: Math.random() * 6 + 3,
+      d: Math.random() * 20 + 10,
+      color: ['#fbbf24','#f59e0b','#34d399','#60a5fa','#a78bfa','#f87171'][Math.floor(Math.random()*6)],
+      tilt: Math.random() * 10 - 10,
+      tiltAngle: 0,
+      tiltAngleIncrement: Math.random() * 0.07 + 0.05,
     });
+  }
+  animateConfetti();
+}
+function animateConfetti() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particles.forEach(p => {
+    p.tiltAngle += p.tiltAngleIncrement;
+    p.y += (Math.cos(p.d) + 2);
+    p.tilt = Math.sin(p.tiltAngle - p.d/3) * 12;
+    ctx.beginPath();
+    ctx.lineWidth = p.r;
+    ctx.strokeStyle = p.color;
+    ctx.moveTo(p.x + p.tilt + p.r/4, p.y);
+    ctx.lineTo(p.x + p.tilt, p.y + p.tilt + p.r/4);
+    ctx.stroke();
+  });
+  particles = particles.filter(p => p.y < canvas.height + 30);
+  if (particles.length > 0) requestAnimationFrame(animateConfetti);
+}
 
-    const dates = {
-      autumn: new Date("September 1, 2025 00:00:00").getTime(),
-      winter: new Date("December 1, 2025 00:00:00").getTime(),
-      spring: new Date("March 1, 2026 00:00:00").getTime(),
-      summer: new Date("June 1, 2026 00:00:00").getTime()
-    };
+function setSeason(id, start, end) {
+  const now = Date.now();
+  const dot = document.getElementById('dot-' + id);
+  const status = document.getElementById('st-' + id);
+  const fill = document.getElementById('fill-' + id);
+  const line = document.getElementById('line-' + id);
 
-    function update() {
-      const now = Date.now();
-      document.getElementById('year').textContent = new Date().getFullYear();
+  if (now < start) {
+    dot.className = 'tl-dot';
+    status.className = 'tl-status wait';
+    status.textContent = 'ожидание';
+    if (fill) fill.style.width = '0%';
+    if (line) line.className = 'tl-line';
+  } else if (now >= start && now < end) {
+    dot.className = 'tl-dot active';
+    const pct = ((now - start) / (end - start) * 100);
+    status.className = 'tl-status active';
+    status.textContent = `идёт · ${pct.toFixed(0)}%`;
+    if (fill) { fill.className = 'tl-mini-fill'; fill.style.width = pct.toFixed(1) + '%'; }
+    if (line) line.className = 'tl-line partial';
+  } else {
+    dot.className = 'tl-dot done';
+    status.className = 'tl-status done';
+    status.textContent = 'завершено ✓';
+    if (fill) { fill.className = 'tl-mini-fill done'; fill.style.width = '100%'; }
+    if (line) line.className = 'tl-line done';
+  }
+}
 
-      const diff = Math.max(0, dates.summer - now);
-      document.getElementById('cDays').textContent = Math.floor(diff / (1000 * 60 * 60 * 24));
-      document.getElementById('cHours').textContent = Math.floor(diff / (1000 * 60 * 60)) % 24;
-      document.getElementById('cMin').textContent = Math.floor(diff / (1000 * 60)) % 60;
-      document.getElementById('cSec').textContent = Math.floor(diff / 1000) % 60;
+let prevSec = -1;
+function update() {
+  const now = Date.now();
+  const diff = Math.max(0, SUMMER - now);
 
-      const totalPeriod = dates.summer - dates.autumn;
-      const currentPassed = now - dates.autumn;
-      const progress = Math.min(100, Math.max(0, (currentPassed / totalPeriod) * 100));
-      
-      const fillEl = document.getElementById('mainFill');
-      const pctEl = document.getElementById('pct');
-      if(fillEl) fillEl.style.width = progress + '%';
-      if(pctEl) pctEl.textContent = progress.toFixed(2) + '%';
+  const curSec = Math.floor(diff / 1000) % 60;
+  if (curSec !== prevSec) {
+    const el = document.getElementById('cSec');
+    el.classList.add('bump');
+    setTimeout(() => el.classList.remove('bump'), 100);
+    prevSec = curSec;
+  }
 
-      updateSeasonStatus('autumn', dates.autumn, dates.winter);
-      updateSeasonStatus('winter', dates.winter, dates.spring);
-      updateSeasonStatus('spring', dates.spring, dates.summer);
+  const totalSecs = Math.floor(diff / 1000);
+  const days   = Math.floor(totalSecs / 86400);
+  const hours  = Math.floor(totalSecs / 3600) % 24;
+  const mins   = Math.floor(totalSecs / 60) % 60;
+  const secs   = totalSecs % 60;
 
-      const sSummer = document.getElementById('s-summer');
-      if (now >= dates.summer) {
-        if(sSummer) sSummer.className = 'season-item active';
-        const stSummer = document.getElementById('st-summer');
-        if(stSummer) stSummer.textContent = 'НАСТУПИЛО ☀️';
-      }
-    }
+  document.getElementById('cDays').textContent  = days;
+  document.getElementById('cHours').textContent = String(hours).padStart(2,'0');
+  document.getElementById('cMin').textContent   = String(mins).padStart(2,'0');
+  document.getElementById('cSec').textContent   = String(secs).padStart(2,'0');
 
-    function updateSeasonStatus(id, start, end) {
-      const now = Date.now();
-      const row = document.getElementById('s-' + id);
-      const status = document.getElementById('st-' + id);
-      if(!row || !status) return;
+  const totalHours = Math.floor(diff / 3600000);
+  const totalMins  = Math.floor(diff / 60000);
+  document.getElementById('dSub').textContent  = `${Math.floor(days/7)} нед.`;
+  document.getElementById('hSub').textContent  = `${totalHours} ч. всего`;
+  document.getElementById('mSub').textContent  = `${totalMins} мин. всего`;
+  document.getElementById('sSub').textContent  = `${totalSecs} сек. всего`;
 
-      if (now < start) {
-        row.className = 'season-item';
-        status.textContent = 'ожидание';
-      } else if (now >= start && now < end) {
-        row.className = 'season-item active';
-        const prog = ((now - start) / (end - start) * 100).toFixed(0);
-        status.textContent = 'идет (' + prog + '%)';
-      } else {
-        row.className = 'season-item done';
-        status.textContent = 'завершено ✓';
-      }
-    }
+  const passed   = now - AUTUMN;
+  const progress = Math.min(100, Math.max(0, passed / TOTAL * 100));
+  document.getElementById('mainFill').style.width = progress + '%';
+  document.getElementById('pct').textContent       = progress.toFixed(3) + '%';
+  document.getElementById('statPct2').textContent  = progress.toFixed(4) + '%';
 
-    setInterval(update, 1000);
-    update();
-  </script>
+  const midTs = AUTUMN + TOTAL / 2;
+  const midDate = new Date(midTs);
+  document.getElementById('midLabel').textContent =
+    `50% · ${midDate.getDate().toString().padStart(2,'0')}.${(midDate.getMonth()+1).toString().padStart(2,'0')}`;
+
+  const passedDays = Math.floor(passed / 86400000);
+  const passedHours = Math.floor(passed / 3600000);
+  document.getElementById('statPassed').textContent = `${passedDays} дн. ${Math.floor(passedHours % 24)} ч.`;
+  document.getElementById('statSpeed').textContent  = (100 / Math.ceil(TOTAL / 86400000)).toFixed(4) + '%';
+  const beats = Math.round(diff / 1000 * 75 / 60);
+  document.getElementById('statHeartbeats').textContent = beats.toLocaleString('ru');
+  const { workdays, weekends } = countWorkWeekdays(now, SUMMER);
+  document.getElementById('statWorkdays').textContent = workdays.toLocaleString('ru');
+  document.getElementById('statWeekends').textContent = weekends.toLocaleString('ru');
+
+  const dt = new Date();
+  const formatTime = useUTC
+    ? dt.toISOString().slice(11,19)
+    : dt.toLocaleTimeString('ru-RU', { hour12: false });
+  const formatDate = useUTC
+    ? dt.toISOString().slice(0,10).split('-').reverse().join('.')
+    : `${String(dt.getDate()).padStart(2,'0')}.${String(dt.getMonth()+1).padStart(2,'0')}.${dt.getFullYear()}`;
+
+  document.getElementById('clockDisp').textContent = formatTime;
+  document.getElementById('dateDisp').textContent  = formatDate;
+
+  setSeason('autumn', AUTUMN, WINTER);
+  setSeason('winter', WINTER, SPRING);
+  setSeason('spring', SPRING, SUMMER);
+
+  const dotSummer = document.getElementById('dot-summer');
+  const stSummer  = document.getElementById('st-summer');
+  if (now >= SUMMER) {
+    dotSummer.className = 'tl-dot active';
+    stSummer.className  = 'tl-status active';
+    stSummer.textContent = 'НАСТУПИЛО ☀️';
+    if (!summerArrived) { summerArrived = true; launchConfetti(); showToast('🎉 ЛЕТО НАСТУПИЛО!', 5000); }
+  } else {
+    dotSummer.className = 'tl-dot';
+    stSummer.className  = 'tl-status wait';
+    stSummer.textContent = 'ожидание';
+  }
+
+  renderGoals(days);
+}
+
+function tickTz() { updateTimezones(); }
+
+setInterval(() => { update(); tickTz(); }, 1000);
+update();
+tickTz();
+</script>
 </body>
 </html>
