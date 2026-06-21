@@ -1,737 +1,375 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>До лета 2026 — Summer Countdown</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Технические работы | Мы скоро вернёмся</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --bg: #08080a;
-      --bg2: #0d0d10;
-      --surface: #111116;
-      --surface2: #16161c;
-      --border: #1c1c24;
-      --border2: #252530;
-      --muted: #44445a;
-      --text: #7a7a96;
-      --bright: #e8e8f0;
-      --white: #ffffff;
-      --sun: #fbbf24;
-      --sun2: #f59e0b;
-      --sun3: #fde68a;
-      --green: #34d399;
-      --green2: #10b981;
-      --blue: #60a5fa;
-      --red: #f87171;
-      --purple: #a78bfa;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
-    [data-theme="light"] {
-      --bg: #fafafa;
-      --bg2: #f5f5f7;
-      --surface: #ffffff;
-      --surface2: #f0f0f5;
-      --border: #e5e5ec;
-      --border2: #d8d8e5;
-      --muted: #aaaabc;
-      --text: #666680;
-      --bright: #18181e;
-      --white: #18181e;
-      --sun: #d97706;
-      --sun2: #b45309;
-      --sun3: #92400e;
-      --green: #059669;
-      --green2: #047857;
-      --blue: #2563eb;
-      --red: #dc2626;
-      --purple: #7c3aed;
-    }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
+
     body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Inter', sans-serif;
-      font-weight: 400;
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-      transition: background 0.25s ease, color 0.25s ease;
-      min-height: 100vh;
-    }
-    .mono { font-family: 'JetBrains Mono', monospace; }
-    .wrap { max-width: 700px; margin: 0 auto; padding: 0 20px; }
-
-    #hero { padding: 56px 0 32px; }
-    h1 {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: clamp(2.2rem, 8vw, 3rem);
-      font-weight: 700; color: var(--bright);
-      line-height: 1.1; margin-bottom: 6px;
-    }
-    h1 span { color: var(--sun); }
-    .hero-sub { font-size: 0.9rem; color: var(--muted); margin-bottom: 36px; }
-    .live-clock {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.8rem; color: var(--text);
-      padding: 10px 16px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      display: inline-block;
-      margin-bottom: 32px;
-    }
-    .live-clock span { color: var(--bright); }
-
-    .countdown-block {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 24px;
-      margin-bottom: 12px;
-    }
-    .label-row {
-      display: flex; justify-content: space-between; align-items: center;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.68rem; color: var(--muted);
-      margin-bottom: 14px;
-      text-transform: uppercase; letter-spacing: 0.06em;
-    }
-    .pct { color: var(--sun); font-weight: 600; font-size: 0.85rem; }
-    .track { height: 3px; background: var(--border2); border-radius: 2px; overflow: hidden; }
-    .fill {
-      height: 100%; background: linear-gradient(90deg, var(--sun2), var(--sun));
-      width: 0%; transition: width 0.5s ease;
-      border-radius: 2px; position: relative;
-    }
-    .fill::after {
-      content: ''; position: absolute; right: 0; top: 50%;
-      transform: translateY(-50%);
-      width: 8px; height: 8px; border-radius: 50%;
-      background: var(--sun);
-      box-shadow: 0 0 8px var(--sun);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, sans-serif;
+      background: #0b0f15;
+      height: 100vh;
+      width: 100vw;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #e8ecf1;
+      position: relative;
     }
 
-    .digit-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 10px; margin-bottom: 10px;
+    .grid-overlay {
+      position: absolute;
+      inset: 0;
+      background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+      z-index: 0;
     }
-    .digit-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 18px 12px 14px;
+
+    canvas {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      display: block;
+      filter: blur(0.5px);
+    }
+
+    .content {
+      position: relative;
+      z-index: 10;
       text-align: center;
-      transition: border-color 0.2s;
-      position: relative; overflow: hidden;
+      padding: 2rem;
+      max-width: 650px;
+      width: 90%;
+      backdrop-filter: blur(2px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.8rem;
+      animation: fadeInUp 1.2s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+      opacity: 0;
+      transform: translateY(30px);
     }
-    .digit-card::before {
-      content: '';
-      position: absolute; inset: 0;
-      background: linear-gradient(135deg, transparent 60%, rgba(251,191,36,0.03));
+
+    @keyframes fadeInUp {
+      0% {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .icon-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 0.3rem;
+    }
+
+    .gear-icon {
+      width: 48px;
+      height: 48px;
+      stroke: #94a3b8;
+      stroke-width: 1.2;
+      fill: none;
+      animation: rotateGear 12s linear infinite;
+      filter: drop-shadow(0 0 8px rgba(148, 163, 184, 0.3));
+    }
+
+    @keyframes rotateGear {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    h1 {
+      font-size: clamp(2.8rem, 8vw, 4.5rem);
+      font-weight: 300;
+      letter-spacing: -0.02em;
+      color: #f1f5f9;
+      line-height: 1.1;
+      margin: 0;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 100px;
+      padding: 0.5rem 1.5rem;
+      font-size: 0.9rem;
+      font-weight: 400;
+      letter-spacing: 0.5px;
+      color: #b9c7dd;
+      transition: all 0.3s ease;
+      margin-top: 0.2rem;
+    }
+
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      background: #60a5fa;
+      border-radius: 50%;
+      display: inline-block;
+      box-shadow: 0 0 12px #3b82f6;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 0.7; transform: scale(0.95); }
+      50% { opacity: 1; transform: scale(1.25); box-shadow: 0 0 18px #3b82f6; }
+      100% { opacity: 0.7; transform: scale(0.95); }
+    }
+
+    .message {
+      font-size: 1.2rem;
+      font-weight: 300;
+      color: #cbd5e1;
+      line-height: 1.6;
+      max-width: 420px;
+      margin: 0.5rem auto 0.8rem;
+      text-wrap: balance;
+    }
+
+    .divider {
+      width: 70px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+      margin: 0.2rem 0 0.5rem;
+    }
+
+    .eta-text {
+      font-size: 0.95rem;
+      font-weight: 400;
+      color: #8b9bb5;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      letter-spacing: 0.3px;
+      background: rgba(15, 23, 42, 0.5);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      padding: 0.5rem 1.6rem;
+      border-radius: 40px;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .eta-text span {
+      font-weight: 500;
+      color: #e2e8f0;
+      margin: 0 0.2rem;
+    }
+
+    footer {
+      position: absolute;
+      bottom: 2.2rem;
+      z-index: 10;
+      font-size: 0.8rem;
+      color: #5f6b7c;
+      letter-spacing: 0.5px;
+      font-weight: 300;
+      text-align: center;
+      width: 100%;
       pointer-events: none;
     }
-    .digit-val {
-      display: block;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: clamp(1.5rem, 5vw, 2rem);
-      font-weight: 700; color: var(--bright);
-      line-height: 1; margin-bottom: 8px;
-      transition: transform 0.1s ease;
-    }
-    .digit-val.bump { transform: scale(1.15); }
-    .digit-lbl {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.6rem; color: var(--muted);
-      text-transform: uppercase; letter-spacing: 0.1em;
-    }
-    .digit-sub {
-      font-size: 0.6rem; color: var(--border2);
-      margin-top: 4px;
-    }
-
-    .sec-head {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.65rem; color: var(--muted);
-      text-transform: uppercase; letter-spacing: 0.1em;
-      margin: 32px 0 12px;
-      display: flex; align-items: center; gap: 10px;
-    }
-    .sec-head::after {
-      content: ''; flex: 1; height: 1px;
-      background: var(--border);
-    }
-
-    .timeline { display: flex; flex-direction: column; gap: 0; }
-    .tl-item {
-      display: flex; align-items: stretch;
-      gap: 16px;
-    }
-    .tl-col {
-      display: flex; flex-direction: column; align-items: center;
-      width: 32px; flex-shrink: 0;
-    }
-    .tl-dot {
-      width: 12px; height: 12px; border-radius: 50%;
-      background: var(--border2); border: 2px solid var(--border2);
-      flex-shrink: 0; margin-top: 4px;
-      transition: all 0.3s;
-    }
-    .tl-dot.done { background: var(--green); border-color: var(--green); }
-    .tl-dot.active {
-      background: var(--sun); border-color: var(--sun);
-      box-shadow: 0 0 12px rgba(251,191,36,0.5);
-      animation: pulse-glow 2s ease-in-out infinite;
-    }
-    @keyframes pulse-glow {
-      0%,100% { box-shadow: 0 0 8px rgba(251,191,36,0.4); }
-      50% { box-shadow: 0 0 20px rgba(251,191,36,0.8); }
-    }
-    .tl-line {
-      flex: 1; width: 2px; background: var(--border);
-      border-radius: 1px; min-height: 40px;
-    }
-    .tl-line.done { background: var(--green); }
-    .tl-line.partial {
-      background: linear-gradient(to bottom, var(--green), var(--border));
-    }
-    .tl-content {
-      flex: 1; padding: 2px 0 28px;
-    }
-    .tl-header {
-      display: flex; justify-content: space-between;
-      align-items: center; margin-bottom: 4px;
-    }
-    .tl-name {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.8rem; font-weight: 600;
-      color: var(--bright);
-    }
-    .tl-status {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.65rem;
-    }
-    .tl-status.done { color: var(--green); }
-    .tl-status.active { color: var(--sun); }
-    .tl-status.wait { color: var(--muted); }
-    .tl-date { font-size: 0.72rem; color: var(--muted); }
-    .tl-mini-bar {
-      margin-top: 8px; height: 2px;
-      background: var(--border);
-      border-radius: 1px; overflow: hidden;
-    }
-    .tl-mini-fill {
-      height: 100%; background: var(--sun);
-      border-radius: 1px; transition: width 0.5s ease;
-    }
-    .tl-mini-fill.done { background: var(--green); }
-
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-    }
-    .stat-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px; padding: 18px;
-    }
-    .stat-label {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.6rem; color: var(--muted);
-      text-transform: uppercase; letter-spacing: 0.08em;
-      margin-bottom: 8px;
-    }
-    .stat-val {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 1.1rem; font-weight: 600;
-      color: var(--bright);
-    }
-    .stat-note { font-size: 0.7rem; color: var(--muted); margin-top: 4px; }
-
-    .tz-block {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px; padding: 16px 20px;
-      margin-bottom: 32px;
-    }
-    .tz-row {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 8px 0;
-      border-bottom: 1px solid var(--border);
-    }
-    .tz-row:last-child { border-bottom: none; }
-    .tz-name { font-size: 0.78rem; color: var(--text); }
-    .tz-time {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.78rem; color: var(--bright);
-    }
-
-    .milestones { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
-    .ms-item {
-      display: flex; align-items: center; gap: 12px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 10px; padding: 12px 16px;
-      transition: border-color 0.2s;
-    }
-    .ms-item.reached { border-color: var(--green); }
-    .ms-icon {
-      font-size: 1rem; width: 24px; text-align: center;
-    }
-    .ms-info { flex: 1; }
-    .ms-name { font-size: 0.8rem; color: var(--bright); }
-    .ms-days { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; color: var(--muted); margin-top: 2px; }
-    .ms-badge {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.6rem; padding: 3px 8px;
-      border-radius: 100px;
-    }
-    .ms-badge.reached { background: rgba(52,211,153,0.1); color: var(--green); border: 1px solid rgba(52,211,153,0.2); }
-    .ms-badge.waiting { background: var(--surface2); color: var(--muted); border: 1px solid var(--border); }
-
-    .toast {
-      position: fixed; bottom: 24px; right: 24px;
-      background: var(--surface2); border: 1px solid var(--border2);
-      color: var(--bright); border-radius: 10px;
-      padding: 12px 18px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.72rem;
-      transform: translateY(80px); opacity: 0;
-      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-      z-index: 999; pointer-events: none;
-      backdrop-filter: blur(12px);
-    }
-    .toast.show { transform: translateY(0); opacity: 1; }
 
     @media (max-width: 480px) {
-      .digit-grid { grid-template-columns: repeat(2, 1fr); }
-      .stats-grid { grid-template-columns: 1fr; }
+      .content {
+        gap: 1.4rem;
+      }
+      .message {
+        font-size: 1rem;
+      }
+      .eta-text {
+        font-size: 0.85rem;
+        padding: 0.4rem 1.2rem;
+      }
     }
-
-    .confetti-canvas {
-      position: fixed; inset: 0; z-index: 9999;
-      pointer-events: none;
-    }
-
-    .theme-fade * { transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease !important; }
-
-    ::-webkit-scrollbar { width: 4px; }
-    ::-webkit-scrollbar-track { background: var(--bg); }
-    ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
-    ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
   </style>
 </head>
-<body data-theme="dark">
+<body>
+  <div class="grid-overlay"></div>
+  <canvas id="particleCanvas"></canvas>
 
-<canvas class="confetti-canvas" id="confettiCanvas"></canvas>
-
-<div class="wrap">
-
-  <section id="hero">
-    <h1>До <span>лета</span><br>осталось</h1>
-    <p class="hero-sub">1 июня 2026 — точный отсчёт в реальном времени</p>
-    <div class="live-clock">
-      сейчас <span id="clockDisp">--:--:--</span> &nbsp;·&nbsp; <span id="dateDisp">--.--.----</span>
+  <div class="content">
+    <div class="icon-wrapper">
+      <svg class="gear-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="currentColor" stroke-width="1.3" fill="none"/>
+        <path d="M19.4 15C19.2669 15.3016 19.2272 15.6362 19.286 15.9606C19.3448 16.285 19.4995 16.5843 19.73 16.82L19.79 16.88C19.976 17.0657 20.1235 17.2863 20.2241 17.5291C20.3248 17.7719 20.3766 18.0322 20.3766 18.295C20.3766 18.5578 20.3248 18.8181 20.2241 19.0609C20.1235 19.3037 19.976 19.5243 19.79 19.71C19.6043 19.896 19.3837 20.0435 19.1409 20.1441C18.8981 20.2448 18.6378 20.2966 18.375 20.2966C18.1122 20.2966 17.8519 20.2448 17.6091 20.1441C17.3663 20.0435 17.1457 19.896 16.96 19.71L16.9 19.65C16.6643 19.4195 16.365 19.2648 16.0406 19.206C15.7162 19.1472 15.3816 19.1869 15.08 19.32C14.7842 19.4468 14.532 19.6572 14.3543 19.9255C14.1766 20.1938 14.0813 20.5082 14.08 20.83V21C14.08 21.5304 13.8693 22.0391 13.4942 22.4142C13.1191 22.7893 12.6104 23 12.08 23C11.5496 23 11.0409 22.7893 10.6658 22.4142C10.2907 22.0391 10.08 21.5304 10.08 21V20.91C10.0723 20.579 9.96512 20.258 9.77251 19.9887C9.5799 19.7194 9.31074 19.5143 9 19.4C8.69838 19.2669 8.36381 19.2272 8.03941 19.286C7.71502 19.3448 7.41568 19.4995 7.18 19.73L7.12 19.79C6.93425 19.976 6.71368 20.1235 6.47088 20.2241C6.22808 20.3248 5.96783 20.3766 5.705 20.3766C5.44217 20.3766 5.18192 20.3248 4.93912 20.2241C4.69632 20.1235 4.47575 19.976 4.29 19.79C4.10405 19.6043 3.95653 19.3837 3.85588 19.1409C3.75523 18.8981 3.70343 18.6378 3.70343 18.375C3.70343 18.1122 3.75523 17.8519 3.85588 17.6091C3.95653 17.3663 4.10405 17.1457 4.29 16.96L4.35 16.9C4.58054 16.6643 4.73519 16.365 4.794 16.0406C4.85282 15.7162 4.81312 15.3816 4.68 15.08C4.55324 14.7842 4.34276 14.532 4.07447 14.3543C3.80618 14.1766 3.49179 14.0813 3.17 14.08H3C2.46957 14.08 1.96086 13.8693 1.58579 13.4942C1.21071 13.1191 1 12.6104 1 12.08C1 11.5496 1.21071 11.0409 1.58579 10.6658C1.96086 10.2907 2.46957 10.08 3 10.08H3.09C3.42099 10.0723 3.742 9.96512 4.0113 9.77251C4.28059 9.5799 4.48572 9.31074 4.6 9C4.73312 8.69838 4.77282 8.36381 4.714 8.03941C4.65519 7.71502 4.50054 7.41568 4.27 7.18L4.21 7.12C4.02405 6.93425 3.87653 6.71368 3.77588 6.47088C3.67523 6.22808 3.62343 5.96783 3.62343 5.705C3.62343 5.44217 3.67523 5.18192 3.77588 4.93912C3.87653 4.69632 4.02405 4.47575 4.21 4.29C4.39575 4.10405 4.61632 3.95653 4.85912 3.85588C5.10192 3.75523 5.36217 3.70343 5.625 3.70343C5.88783 3.70343 6.14808 3.75523 6.39088 3.85588C6.63368 3.95653 6.85425 4.10405 7.04 4.29L7.1 4.35C7.33568 4.58054 7.63502 4.73519 7.95941 4.794C8.28381 4.85282 8.61838 4.81312 8.92 4.68H9C9.29577 4.55324 9.54802 4.34276 9.72569 4.07447C9.90337 3.80618 9.99872 3.49179 10 3.17V3C10 2.46957 10.2107 1.96086 10.5858 1.58579C10.9609 1.21071 11.4696 1 12 1C12.5304 1 13.0391 1.21071 13.4142 1.58579C13.7893 1.96086 14 2.46957 14 3V3.09C14.0013 3.41179 14.0966 3.72618 14.2743 3.99447C14.452 4.26276 14.7042 4.47324 15 4.6C15.3016 4.73312 15.6362 4.77282 15.9606 4.714C16.285 4.65519 16.5843 4.50054 16.82 4.27L16.88 4.21C17.0657 4.02405 17.2863 3.87653 17.5291 3.77588C17.7719 3.67523 18.0322 3.62343 18.295 3.62343C18.5578 3.62343 18.8181 3.67523 19.0609 3.77588C19.3037 3.87653 19.5243 4.02405 19.71 4.21C19.896 4.39575 20.0435 4.61632 20.1441 4.85912C20.2448 5.10192 20.2966 5.36217 20.2966 5.625C20.2966 5.88783 20.2448 6.14808 20.1441 6.39088C20.0435 6.63368 19.896 6.85425 19.71 7.04L19.65 7.1C19.4195 7.33568 19.2648 7.63502 19.206 7.95941C19.1472 8.28381 19.1869 8.61838 19.32 8.92V9C19.4468 9.29577 19.6572 9.54802 19.9255 9.72569C20.1938 9.90337 20.5082 9.99872 20.83 10H21C21.5304 10 22.0391 10.2107 22.4142 10.5858C22.7893 10.9609 23 11.4696 23 12C23 12.5304 22.7893 13.0391 22.4142 13.4142C22.0391 13.7893 21.5304 14 21 14H20.91C20.5882 14.0013 20.2738 14.0966 20.0055 14.2743C19.7372 14.452 19.5268 14.7042 19.4 15Z" stroke="currentColor" stroke-width="1.2" fill="none"/>
+      </svg>
     </div>
 
-    <div class="countdown-block">
-      <div class="label-row">
-        <span>Прогресс до лета</span>
-        <span class="pct" id="pct">0.000%</span>
-      </div>
-      <div class="track"><div class="fill" id="mainFill"></div></div>
-      <div style="display:flex;justify-content:space-between;margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:var(--muted);">
-        <span>01.09.2025</span>
-        <span id="midLabel">—</span>
-        <span>01.06.2026</span>
-      </div>
+    <h1>Технические работы</h1>
+    
+    <div class="status-badge">
+      <span class="pulse-dot"></span>
+      <span>Идёт обновление систем</span>
     </div>
 
-    <div class="digit-grid">
-      <div class="digit-card">
-        <span class="digit-val" id="cDays">---</span>
-        <div class="digit-lbl">дней</div>
-        <div class="digit-sub" id="dSub">—</div>
-      </div>
-      <div class="digit-card">
-        <span class="digit-val" id="cHours">--</span>
-        <div class="digit-lbl">часов</div>
-        <div class="digit-sub" id="hSub">—</div>
-      </div>
-      <div class="digit-card">
-        <span class="digit-val" id="cMin">--</span>
-        <div class="digit-lbl">минут</div>
-        <div class="digit-sub" id="mSub">—</div>
-      </div>
-      <div class="digit-card">
-        <span class="digit-val" id="cSec">--</span>
-        <div class="digit-lbl">секунд</div>
-        <div class="digit-sub" id="sSub">—</div>
-      </div>
-    </div>
+    <p class="message">
+      Мы делаем платформу ещё надёжнее и быстрее. 
+      Совсем скоро всё заработает в прежнем режиме.
+    </p>
 
-  </section>
+    <div class="divider"></div>
 
-  <div class="sec-head">ТАЙМЛАЙН СЕЗОНОВ</div>
-  <div class="timeline">
-
-    <div class="tl-item">
-      <div class="tl-col">
-        <div class="tl-dot" id="dot-autumn"></div>
-        <div class="tl-line" id="line-autumn"></div>
-      </div>
-      <div class="tl-content">
-        <div class="tl-header">
-          <span class="tl-name">🍂 Осень</span>
-          <span class="tl-status wait" id="st-autumn">ожидание</span>
-        </div>
-        <div class="tl-date">01.09.2025 — 01.12.2025 · 91 день</div>
-        <div class="tl-mini-bar"><div class="tl-mini-fill" id="fill-autumn" style="width:0%"></div></div>
-      </div>
-    </div>
-
-    <div class="tl-item">
-      <div class="tl-col">
-        <div class="tl-dot" id="dot-winter"></div>
-        <div class="tl-line" id="line-winter"></div>
-      </div>
-      <div class="tl-content">
-        <div class="tl-header">
-          <span class="tl-name">❄️ Зима</span>
-          <span class="tl-status wait" id="st-winter">ожидание</span>
-        </div>
-        <div class="tl-date">01.12.2025 — 01.03.2026 · 90 дней</div>
-        <div class="tl-mini-bar"><div class="tl-mini-fill" id="fill-winter" style="width:0%"></div></div>
-      </div>
-    </div>
-
-    <div class="tl-item">
-      <div class="tl-col">
-        <div class="tl-dot" id="dot-spring"></div>
-        <div class="tl-line" id="line-spring"></div>
-      </div>
-      <div class="tl-content">
-        <div class="tl-header">
-          <span class="tl-name">🌸 Весна</span>
-          <span class="tl-status wait" id="st-spring">ожидание</span>
-        </div>
-        <div class="tl-date">01.03.2026 — 01.06.2026 · 92 дня</div>
-        <div class="tl-mini-bar"><div class="tl-mini-fill" id="fill-spring" style="width:0%"></div></div>
-      </div>
-    </div>
-
-    <div class="tl-item">
-      <div class="tl-col">
-        <div class="tl-dot" id="dot-summer"></div>
-      </div>
-      <div class="tl-content" style="padding-bottom:0">
-        <div class="tl-header">
-          <span class="tl-name">☀️ Лето</span>
-          <span class="tl-status wait" id="st-summer">ожидание</span>
-        </div>
-        <div class="tl-date">01.06.2026</div>
-      </div>
-    </div>
-
-  </div>
-
-  <div class="sec-head">СТАТИСТИКА</div>
-  <div class="stats-grid">
-    <div class="stat-card">
-      <div class="stat-label">Прошло с начала отсчёта</div>
-      <div class="stat-val" id="statPassed">—</div>
-      <div class="stat-note" id="statPassedSub">c 01 сентября 2025</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-label">До лета в процентах</div>
-      <div class="stat-val" id="statPct2">—</div>
-      <div class="stat-note">от всего периода осень→лето</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-label">Скорость времени</div>
-      <div class="stat-val" id="statSpeed">—</div>
-      <div class="stat-note">% прогресса в сутки</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-label">Биений сердца до лета</div>
-      <div class="stat-val" id="statHeartbeats">—</div>
-      <div class="stat-note">при 75 уд/мин</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-label">Рабочих дней до лета</div>
-      <div class="stat-val" id="statWorkdays">—</div>
-      <div class="stat-note">пн–пт, без учёта праздников</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-label">Выходных до лета</div>
-      <div class="stat-val" id="statWeekends">—</div>
-      <div class="stat-note">суббота и воскресенье</div>
+    <div class="eta-text">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.8; margin-right: 2px;">
+        <circle cx="12" cy="12" r="10"></circle>
+        <polyline points="12 6 12 12 16 14"></polyline>
+      </svg>
+      Ориентировочное завершение: <span>26.06.2026</span>
     </div>
   </div>
 
-  <div class="sec-head">ЦЕЛИ</div>
-  <div class="milestones" id="milestones"></div>
+  <footer>
+    приносим извинения за временные неудобства
+  </footer>
 
-  <div class="sec-head">ЧАСОВЫЕ ПОЯСА</div>
-  <div class="tz-block">
-    <div class="tz-row">
-      <span class="tz-name">🇷🇺 Москва (MSK, UTC+3)</span>
-      <span class="tz-time mono" id="tzMSK">--:--:--</span>
-    </div>
-    <div class="tz-row">
-      <span class="tz-name">🇬🇧 Лондон (GMT/BST)</span>
-      <span class="tz-time mono" id="tzLON">--:--:--</span>
-    </div>
-    <div class="tz-row">
-      <span class="tz-name">🇺🇸 Нью-Йорк (ET)</span>
-      <span class="tz-name">
-        <span class="tz-time mono" id="tzNY">--:--:--</span>
-      </span>
-    </div>
-    <div class="tz-row">
-      <span class="tz-name">🇯🇵 Токио (JST, UTC+9)</span>
-      <span class="tz-time mono" id="tzTOK">--:--:--</span>
-    </div>
-    <div class="tz-row">
-      <span class="tz-name">🇦🇺 Сидней (AEST/AEDT)</span>
-      <span class="tz-time mono" id="tzSYD">--:--:--</span>
-    </div>
-  </div>
-
-</div>
-
-<div class="toast" id="toast"></div>
-
-<script>
-const SUMMER   = new Date("2026-06-01T00:00:00").getTime();
-const AUTUMN   = new Date("2025-09-01T00:00:00").getTime();
-const WINTER   = new Date("2025-12-01T00:00:00").getTime();
-const SPRING   = new Date("2026-03-01T00:00:00").getTime();
-const TOTAL    = SUMMER - AUTUMN;
-
-const GOALS = [
-  { days: 200, icon: '📅', name: '200 дней до лета' },
-  { days: 150, icon: '🗓️', name: '150 дней до лета' },
-  { days: 100, icon: '💯', name: '100 дней до лета' },
-  { days: 90,  icon: '3️⃣', name: '90 дней до лета' },
-  { days: 60,  icon: '2️⃣', name: '60 дней до лета' },
-  { days: 30,  icon: '1️⃣', name: '30 дней до лета' },
-  { days: 14,  icon: '🔥', name: '2 недели до лета' },
-  { days: 7,   icon: '⚡', name: '1 неделя до лета' },
-  { days: 1,   icon: '🌅', name: '1 день до лета' },
-];
-
-let useUTC = false;
-let summerArrived = false;
-
-const body = document.body;
-const savedTheme = localStorage.getItem('theme') || 'dark';
-body.setAttribute('data-theme', savedTheme);
-
-function showToast(msg, dur = 2500) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), dur);
-}
-
-function renderGoals(daysLeft) {
-  const el = document.getElementById('milestones');
-  el.innerHTML = '';
-  GOALS.forEach(m => {
-    const reached = daysLeft <= m.days;
-    const div = document.createElement('div');
-    div.className = 'ms-item' + (reached ? ' reached' : '');
-    div.innerHTML = `
-      <div class="ms-icon">${m.icon}</div>
-      <div class="ms-info">
-        <div class="ms-name">${m.name}</div>
-        <div class="ms-days">${reached ? `достигнуто (оставалось ${m.days} дн.)` : `ещё ${daysLeft - m.days} дн. до цели`}</div>
-      </div>
-      <span class="ms-badge ${reached ? 'reached' : 'waiting'}">${reached ? '✓' : 'ЖДЁМ'}</span>`;
-    el.appendChild(div);
-  });
-}
-
-function countWorkWeekdays(fromMs, toMs) {
-  let workdays = 0, weekends = 0;
-  const oneDay = 86400000;
-  let cur = fromMs;
-  while (cur < toMs) {
-    const d = new Date(cur).getDay();
-    if (d === 0 || d === 6) weekends++; else workdays++;
-    cur += oneDay;
-  }
-  return { workdays, weekends };
-}
-
-function tzTime(tz) {
-  return new Date().toLocaleTimeString('ru-RU', { timeZone: tz, hour12: false });
-}
-function updateTimezones() {
-  document.getElementById('tzMSK').textContent = tzTime('Europe/Moscow');
-  document.getElementById('tzLON').textContent = tzTime('Europe/London');
-  document.getElementById('tzNY').textContent  = tzTime('America/New_York');
-  document.getElementById('tzTOK').textContent = tzTime('Asia/Tokyo');
-  document.getElementById('tzSYD').textContent = tzTime('Australia/Sydney');
-}
-
-const canvas = document.getElementById('confettiCanvas');
-const ctx = canvas.getContext('2d');
-let particles = [];
-function launchConfetti() {
-  canvas.width = innerWidth; canvas.height = innerHeight;
-  for (let i = 0; i < 180; i++) {
-    particles.push({
-      x: Math.random() * innerWidth,
-      y: Math.random() * innerHeight - innerHeight,
-      r: Math.random() * 6 + 3,
-      d: Math.random() * 20 + 10,
-      color: ['#fbbf24','#f59e0b','#34d399','#60a5fa','#a78bfa','#f87171'][Math.floor(Math.random()*6)],
-      tilt: Math.random() * 10 - 10,
-      tiltAngle: 0,
-      tiltAngleIncrement: Math.random() * 0.07 + 0.05,
-    });
-  }
-  animateConfetti();
-}
-function animateConfetti() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  particles.forEach(p => {
-    p.tiltAngle += p.tiltAngleIncrement;
-    p.y += (Math.cos(p.d) + 2);
-    p.tilt = Math.sin(p.tiltAngle - p.d/3) * 12;
-    ctx.beginPath();
-    ctx.lineWidth = p.r;
-    ctx.strokeStyle = p.color;
-    ctx.moveTo(p.x + p.tilt + p.r/4, p.y);
-    ctx.lineTo(p.x + p.tilt, p.y + p.tilt + p.r/4);
-    ctx.stroke();
-  });
-  particles = particles.filter(p => p.y < canvas.height + 30);
-  if (particles.length > 0) requestAnimationFrame(animateConfetti);
-}
-
-function setSeason(id, start, end) {
-  const now = Date.now();
-  const dot = document.getElementById('dot-' + id);
-  const status = document.getElementById('st-' + id);
-  const fill = document.getElementById('fill-' + id);
-  const line = document.getElementById('line-' + id);
-
-  if (now < start) {
-    dot.className = 'tl-dot';
-    status.className = 'tl-status wait';
-    status.textContent = 'ожидание';
-    if (fill) fill.style.width = '0%';
-    if (line) line.className = 'tl-line';
-  } else if (now >= start && now < end) {
-    dot.className = 'tl-dot active';
-    const pct = ((now - start) / (end - start) * 100);
-    status.className = 'tl-status active';
-    status.textContent = `идёт · ${pct.toFixed(0)}%`;
-    if (fill) { fill.className = 'tl-mini-fill'; fill.style.width = pct.toFixed(1) + '%'; }
-    if (line) line.className = 'tl-line partial';
-  } else {
-    dot.className = 'tl-dot done';
-    status.className = 'tl-status done';
-    status.textContent = 'завершено ✓';
-    if (fill) { fill.className = 'tl-mini-fill done'; fill.style.width = '100%'; }
-    if (line) line.className = 'tl-line done';
-  }
-}
-
-let prevSec = -1;
-function update() {
-  const now = Date.now();
-  const diff = Math.max(0, SUMMER - now);
-
-  const curSec = Math.floor(diff / 1000) % 60;
-  if (curSec !== prevSec) {
-    const el = document.getElementById('cSec');
-    el.classList.add('bump');
-    setTimeout(() => el.classList.remove('bump'), 100);
-    prevSec = curSec;
-  }
-
-  const totalSecs = Math.floor(diff / 1000);
-  const days   = Math.floor(totalSecs / 86400);
-  const hours  = Math.floor(totalSecs / 3600) % 24;
-  const mins   = Math.floor(totalSecs / 60) % 60;
-  const secs   = totalSecs % 60;
-
-  document.getElementById('cDays').textContent  = days;
-  document.getElementById('cHours').textContent = String(hours).padStart(2,'0');
-  document.getElementById('cMin').textContent   = String(mins).padStart(2,'0');
-  document.getElementById('cSec').textContent   = String(secs).padStart(2,'0');
-
-  const totalHours = Math.floor(diff / 3600000);
-  const totalMins  = Math.floor(diff / 60000);
-  document.getElementById('dSub').textContent  = `${Math.floor(days/7)} нед.`;
-  document.getElementById('hSub').textContent  = `${totalHours} ч. всего`;
-  document.getElementById('mSub').textContent  = `${totalMins} мин. всего`;
-  document.getElementById('sSub').textContent  = `${totalSecs} сек. всего`;
-
-  const passed   = now - AUTUMN;
-  const progress = Math.min(100, Math.max(0, passed / TOTAL * 100));
-  document.getElementById('mainFill').style.width = progress + '%';
-  document.getElementById('pct').textContent       = progress.toFixed(3) + '%';
-  document.getElementById('statPct2').textContent  = progress.toFixed(4) + '%';
-
-  const midTs = AUTUMN + TOTAL / 2;
-  const midDate = new Date(midTs);
-  document.getElementById('midLabel').textContent =
-    `50% · ${midDate.getDate().toString().padStart(2,'0')}.${(midDate.getMonth()+1).toString().padStart(2,'0')}`;
-
-  const passedDays = Math.floor(passed / 86400000);
-  const passedHours = Math.floor(passed / 3600000);
-  document.getElementById('statPassed').textContent = `${passedDays} дн. ${Math.floor(passedHours % 24)} ч.`;
-  document.getElementById('statSpeed').textContent  = (100 / Math.ceil(TOTAL / 86400000)).toFixed(4) + '%';
-  const beats = Math.round(diff / 1000 * 75 / 60);
-  document.getElementById('statHeartbeats').textContent = beats.toLocaleString('ru');
-  const { workdays, weekends } = countWorkWeekdays(now, SUMMER);
-  document.getElementById('statWorkdays').textContent = workdays.toLocaleString('ru');
-  document.getElementById('statWeekends').textContent = weekends.toLocaleString('ru');
-
-  const dt = new Date();
-  const formatTime = useUTC
-    ? dt.toISOString().slice(11,19)
-    : dt.toLocaleTimeString('ru-RU', { hour12: false });
-  const formatDate = useUTC
-    ? dt.toISOString().slice(0,10).split('-').reverse().join('.')
-    : `${String(dt.getDate()).padStart(2,'0')}.${String(dt.getMonth()+1).padStart(2,'0')}.${dt.getFullYear()}`;
-
-  document.getElementById('clockDisp').textContent = formatTime;
-  document.getElementById('dateDisp').textContent  = formatDate;
-
-  setSeason('autumn', AUTUMN, WINTER);
-  setSeason('winter', WINTER, SPRING);
-  setSeason('spring', SPRING, SUMMER);
-
-  const dotSummer = document.getElementById('dot-summer');
-  const stSummer  = document.getElementById('st-summer');
-  if (now >= SUMMER) {
-    dotSummer.className = 'tl-dot active';
-    stSummer.className  = 'tl-status active';
-    stSummer.textContent = 'НАСТУПИЛО ☀️';
-    if (!summerArrived) { summerArrived = true; launchConfetti(); showToast('🎉 ЛЕТО НАСТУПИЛО!', 5000); }
-  } else {
-    dotSummer.className = 'tl-dot';
-    stSummer.className  = 'tl-status wait';
-    stSummer.textContent = 'ожидание';
-  }
-
-  renderGoals(days);
-}
-
-function tickTz() { updateTimezones(); }
-
-setInterval(() => { update(); tickTz(); }, 1000);
-update();
-tickTz();
-</script>
+  <script>
+    (function() {
+      const canvas = document.getElementById('particleCanvas');
+      const ctx = canvas.getContext('2d');
+      
+      let width, height;
+      let particles = [];
+      
+      const PARTICLE_COUNT = 90;
+      const CONNECTION_DISTANCE = 110;
+      const COLORS = ['#94a3b8', '#b9c7dd', '#6b7b94', '#cbd5e1'];
+      
+      class Particle {
+        constructor() {
+          this.reset();
+        }
+        
+        reset() {
+          this.x = Math.random() * width;
+          this.y = Math.random() * height;
+          this.vx = (Math.random() - 0.5) * 0.22;
+          this.vy = (Math.random() - 0.5) * 0.22;
+          this.radius = Math.random() * 1.9 + 0.7;
+          this.color = COLORS[Math.floor(Math.random() * COLORS.length)];
+          this.alpha = Math.random() * 0.5 + 0.25;
+        }
+        
+        update() {
+          this.x += this.vx;
+          this.y += this.vy;
+          
+          if (this.x < -10) this.x = width + 9;
+          if (this.x > width + 10) this.x = -9;
+          if (this.y < -10) this.y = height + 9;
+          if (this.y > height + 10) this.y = -9;
+        }
+        
+        draw(ctx) {
+          ctx.save();
+          ctx.globalAlpha = this.alpha;
+          ctx.fillStyle = this.color;
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+          ctx.fill();
+          
+          if (this.radius > 1.3) {
+            ctx.shadowColor = 'rgba(148, 163, 184, 0.5)';
+            ctx.shadowBlur = 6;
+            ctx.fill();
+            ctx.shadowColor = 'transparent';
+            ctx.shadowBlur = 0;
+          }
+          ctx.restore();
+        }
+      }
+      
+      function initParticles() {
+        particles = [];
+        for (let i = 0; i < PARTICLE_COUNT; i++) {
+          particles.push(new Particle());
+        }
+      }
+      
+      function drawConnections(ctx, particlesList) {
+        for (let i = 0; i < particlesList.length; i++) {
+          for (let j = i + 1; j < particlesList.length; j++) {
+            const p1 = particlesList[i];
+            const p2 = particlesList[j];
+            const dx = p1.x - p2.x;
+            const dy = p1.y - p2.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            
+            if (dist < CONNECTION_DISTANCE) {
+              const opacity = 1 - dist / CONNECTION_DISTANCE;
+              ctx.save();
+              ctx.strokeStyle = `rgba(180, 195, 215, ${opacity * 0.18})`;
+              ctx.lineWidth = 0.6;
+              ctx.beginPath();
+              ctx.moveTo(p1.x, p1.y);
+              ctx.lineTo(p2.x, p2.y);
+              ctx.stroke();
+              ctx.restore();
+            }
+          }
+        }
+      }
+      
+      function animate() {
+        ctx.clearRect(0, 0, width, height);
+        
+        for (let p of particles) {
+          p.update();
+          p.draw(ctx);
+        }
+        
+        drawConnections(ctx, particles);
+        
+        requestAnimationFrame(animate);
+      }
+      
+      function resizeCanvas() {
+        width = window.innerWidth;
+        height = window.innerHeight;
+        canvas.width = width;
+        canvas.height = height;
+        
+        if (particles.length > 0) {
+          for (let p of particles) {
+            p.x = Math.min(width, Math.max(0, p.x));
+            p.y = Math.min(height, Math.max(0, p.y));
+          }
+        } else {
+          initParticles();
+        }
+      }
+      
+      window.addEventListener('resize', resizeCanvas);
+      resizeCanvas();
+      initParticles();
+      animate();
+      
+      window.addEventListener('orientationchange', () => {
+        setTimeout(resizeCanvas, 60);
+      });
+    })();
+  </script>
 </body>
 </html>
