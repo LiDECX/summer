@@ -1,370 +1,1069 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Технические работы</title>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+  <title id="pageTitle">Лето</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet"/>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap');
-
-    *, *::before, *::after {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
     :root {
-      --bg: #0a0a0a;
-      --surface: #111111;
-      --border: rgba(255,255,255,0.06);
-      --text-primary: #f0f0f0;
-      --text-secondary: #555;
-      --accent: #ffffff;
-      --dot: rgba(255,255,255,0.04);
+      --bg: #08080a;
+      --bg2: #0d0d10;
+      --surface: #111116;
+      --surface2: #16161c;
+      --border: #1c1c24;
+      --border2: #252530;
+      --muted: #6b6b85;
+      --text: #a0a0b8;
+      --bright: #e8e8f0;
+      --white: #ffffff;
+      --sun: #fbbf24;
+      --sun2: #f59e0b;
+      --sun3: #fde68a;
+      --green: #34d399;
+      --green2: #10b981;
+      --blue: #60a5fa;
+      --red: #f87171;
+      --purple: #a78bfa;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 14px;
+      --shadow-glow: 0 0 20px rgba(251, 191, 36, 0.15);
+      --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.3);
+      --transition-smooth: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    html, body {
-      height: 100%;
-      width: 100%;
+    [data-theme="light"] {
+      --bg: #f5f5f7;
+      --bg2: #eeeeee;
+      --surface: #ffffff;
+      --surface2: #f8f8fa;
+      --border: #e0e0e5;
+      --border2: #d0d0d8;
+      --muted: #8888a0;
+      --text: #555570;
+      --bright: #1a1a2e;
+      --white: #000000;
+      --shadow-glow: 0 0 20px rgba(251, 191, 36, 0.2);
+      --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.08);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
       background: var(--bg);
-      color: var(--text-primary);
+      color: var(--text);
       font-family: 'Inter', sans-serif;
-      font-weight: 300;
-      overflow: hidden;
+      font-weight: 400;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+      transition: background 0.3s ease, color 0.3s ease;
+      padding-bottom: env(safe-area-inset-bottom);
     }
-
     body::before {
       content: '';
       position: fixed;
-      inset: 0;
-      background-image: radial-gradient(circle, rgba(255,255,255,0.045) 1px, transparent 1px);
-      background-size: 36px 36px;
-      z-index: 0;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at 50% 0%, rgba(251,191,36,0.03) 0%, transparent 60%);
       pointer-events: none;
+      z-index: 0;
     }
+    .wrap { max-width: 700px; margin: 0 auto; padding: 0 16px; position: relative; z-index: 1; }
 
-    body::after {
-      content: '';
+    .theme-toggle {
       position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 700px;
-      height: 700px;
-      background: radial-gradient(ellipse at center, rgba(255,255,255,0.03) 0%, transparent 70%);
-      z-index: 0;
-      pointer-events: none;
+      top: 16px;
+      right: 16px;
+      z-index: 100;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      padding: 8px 16px;
+      cursor: pointer;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--bright);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all var(--transition-smooth);
+      backdrop-filter: blur(10px);
+      box-shadow: var(--shadow-card);
+      min-height: 44px;
+      min-width: 44px;
+      justify-content: center;
+    }
+    .theme-toggle:hover {
+      border-color: var(--sun);
+      box-shadow: var(--shadow-glow);
+      transform: translateY(-2px);
+    }
+    .theme-icon { font-size: 1.1rem; }
+
+    button, 
+    button:focus, 
+    button:focus-visible,
+    .theme-toggle,
+    .theme-toggle:focus,
+    .theme-toggle:focus-visible {
+      outline: none !important;
+      -webkit-tap-highlight-color: transparent !important;
     }
 
-    .container {
+    *:focus {
+      outline: none !important;
+    }
+
+    *:focus-visible {
+      outline: none !important;
+    }
+
+    * {
+      -webkit-tap-highlight-color: transparent !important;
+    }
+
+    #hero { padding: 48px 0 24px; position: relative; }
+    h1 {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: clamp(1.8rem, 7vw, 2.6rem);
+      font-weight: 700; color: var(--bright);
+      line-height: 1.15; margin-bottom: 6px;
+      animation: fadeInUp 0.6s ease-out;
+      position: relative;
+    }
+    h1 span { 
+      color: var(--sun);
+      position: relative;
+      display: inline-block;
+    }
+    h1 span::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: var(--sun);
+      border-radius: 2px;
+      transform: scaleX(0);
+      transform-origin: left;
+      animation: lineReveal 0.8s 0.5s ease-out forwards;
+    }
+    @media (max-width: 480px) {
+      h1 span::after { display: none; }
+      .theme-toggle { top: 12px; right: 12px; padding: 6px 14px; font-size: 0.7rem; }
+    }
+    @keyframes lineReveal {
+      to { transform: scaleX(1); }
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .hero-sub {
+      font-size: 0.85rem; color: var(--muted); margin-bottom: 28px;
+      animation: fadeInUp 0.6s 0.2s ease-out both;
+      font-weight: 500;
+    }
+    .live-clock {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem; color: var(--text);
+      padding: 10px 16px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 24px;
+      animation: fadeInUp 0.6s 0.3s ease-out both;
+      backdrop-filter: blur(8px);
+      box-shadow: var(--shadow-card);
+      font-weight: 500;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .live-clock span { color: var(--bright); font-weight: 600; }
+    .live-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      animation: livePulse 2s ease-in-out infinite;
+    }
+    @keyframes livePulse {
+      0%, 100% { opacity: 1; box-shadow: 0 0 4px var(--green); }
+      50% { opacity: 0.3; box-shadow: 0 0 12px var(--green); }
+    }
+
+    .countdown-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      margin-bottom: 12px;
+      animation: fadeInUp 0.6s 0.4s ease-out both;
+      box-shadow: var(--shadow-card);
+      position: relative;
+      overflow: hidden;
+    }
+    .countdown-block::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--sun), transparent);
+      opacity: 0.5;
+    }
+    .label-row {
+      display: flex; justify-content: space-between; align-items: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem; color: var(--muted);
+      margin-bottom: 12px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      font-weight: 500;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .pct {
+      color: var(--sun); font-weight: 700; font-size: 0.8rem;
+      background: rgba(251,191,36,0.12);
+      padding: 4px 10px;
+      border-radius: 100px;
+      border: 1px solid rgba(251,191,36,0.2);
+    }
+    .track { height: 4px; background: var(--border2); border-radius: 2px; overflow: hidden; position: relative; }
+    .track::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(90deg, transparent, transparent 20px, rgba(255,255,255,0.02) 20px, rgba(255,255,255,0.02) 22px);
+      pointer-events: none;
+    }
+    .fill {
+      height: 100%; background: linear-gradient(90deg, var(--sun2), var(--sun));
+      width: 0%; transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      border-radius: 2px; position: relative;
+      box-shadow: 0 0 12px rgba(251,191,36,0.3);
+    }
+    .fill::after {
+      content: ''; position: absolute; right: -2px; top: 50%;
+      transform: translateY(-50%);
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--sun);
+      box-shadow: 0 0 16px var(--sun);
+      transition: all 0.3s ease;
+    }
+
+    .digit-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px; margin-bottom: 10px;
+      animation: fadeInUp 0.6s 0.5s ease-out both;
+    }
+    .digit-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 18px 8px 14px;
+      text-align: center;
+      transition: all var(--transition-smooth);
+      position: relative; overflow: hidden;
+      box-shadow: var(--shadow-card);
+    }
+    .digit-card:hover {
+      border-color: var(--sun);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-glow);
+    }
+    .digit-card::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, transparent 60%, rgba(251,191,36,0.04));
+      pointer-events: none;
+      transition: opacity var(--transition-smooth);
+    }
+    .digit-card:hover::before {
+      background: linear-gradient(135deg, transparent 50%, rgba(251,191,36,0.08));
+    }
+    .digit-val {
+      display: block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: clamp(1.5rem, 4vw, 1.9rem);
+      font-weight: 700; color: var(--bright);
+      line-height: 1; margin-bottom: 8px;
+      transition: all 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
       position: relative;
       z-index: 1;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 2rem;
-      gap: 3rem;
     }
-
-    .icon-wrap {
+    .digit-val.bump { 
+      transform: scale(1.2); 
+      color: var(--sun);
+      text-shadow: 0 0 20px rgba(251,191,36,0.5);
+    }
+    .digit-lbl {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem; color: var(--muted);
+      text-transform: uppercase; letter-spacing: 0.08em;
       position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      z-index: 1;
+      font-weight: 600;
     }
-
-    .icon-ring {
-      position: absolute;
-      width: 72px;
-      height: 72px;
-      border-radius: 50%;
-      border: 1px solid rgba(255,255,255,0.08);
-      animation: pulse-ring 3s ease-in-out infinite;
-    }
-    .icon-ring:nth-child(2) {
-      width: 96px;
-      height: 96px;
-      animation-delay: 0.6s;
-      border-color: rgba(255,255,255,0.04);
-    }
-    .icon-ring:nth-child(3) {
-      width: 124px;
-      height: 124px;
-      animation-delay: 1.2s;
-      border-color: rgba(255,255,255,0.02);
-    }
-
-    @keyframes pulse-ring {
-      0%, 100% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.06); opacity: 0.5; }
-    }
-
-    .icon-svg {
+    .digit-sub {
+      font-size: 0.55rem; color: var(--muted);
+      margin-top: 4px;
       position: relative;
-      width: 44px;
-      height: 44px;
-      animation: spin-slow 12s linear infinite;
-    }
-
-    @keyframes spin-slow {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-
-    .text-block {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.75rem;
-      text-align: center;
-    }
-
-    .label {
-      font-size: 0.65rem;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: var(--text-secondary);
-      font-weight: 400;
-    }
-
-    .heading {
-      font-size: clamp(1.6rem, 5vw, 2.6rem);
-      font-weight: 300;
-      letter-spacing: -0.02em;
-      color: var(--text-primary);
-      line-height: 1.1;
-    }
-
-    .heading span {
-      display: block;
+      z-index: 1;
       font-weight: 500;
     }
 
-    .sub {
-      margin-top: 0.5rem;
-      font-size: 0.82rem;
-      color: var(--text-secondary);
-      font-weight: 300;
-      letter-spacing: 0.01em;
-      max-width: 320px;
-      line-height: 1.7;
+    .sec-head {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem; color: var(--muted);
+      text-transform: uppercase; letter-spacing: 0.08em;
+      margin: 28px 0 12px;
+      display: flex; align-items: center; gap: 8px;
+      animation: fadeInUp 0.6s ease-out both;
+      font-weight: 600;
+    }
+    .sec-head::after {
+      content: ''; flex: 1; height: 1px;
+      background: linear-gradient(90deg, var(--border), transparent);
     }
 
-    .status {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.45rem 1.1rem;
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      font-size: 0.72rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.25);
+    .timeline { display: flex; flex-direction: column; gap: 0; animation: fadeInUp 0.6s 0.6s ease-out both; }
+    .tl-item {
+      display: flex; align-items: stretch;
+      gap: 12px; position: relative;
+    }
+    .tl-item:hover .tl-content {
       background: rgba(255,255,255,0.02);
-      margin-top: 0.5rem;
+      border-radius: var(--radius-sm);
     }
-
-    .status-dot {
-      width: 5px;
-      height: 5px;
+    .tl-col {
+      display: flex; flex-direction: column; align-items: center;
+      width: 28px; flex-shrink: 0;
+    }
+    .tl-dot {
+      width: 12px; height: 12px; border-radius: 50%;
+      background: var(--border2); border: 2px solid var(--border2);
+      flex-shrink: 0; margin-top: 4px;
+      transition: all var(--transition-smooth);
+      position: relative;
+    }
+    .tl-dot::after {
+      content: '';
+      position: absolute;
+      inset: -4px;
       border-radius: 50%;
-      background: #ffffff;
-      opacity: 0.6;
-      animation: blink 2.2s ease-in-out infinite;
+      border: 1px solid transparent;
+      transition: all var(--transition-smooth);
+    }
+    .tl-dot.done { 
+      background: var(--green); 
+      border-color: var(--green);
+      box-shadow: 0 0 12px rgba(52,211,153,0.3);
+    }
+    .tl-dot.done::after {
+      border-color: rgba(52,211,153,0.3);
+      animation: dotRipple 2s ease-out infinite;
+    }
+    @keyframes dotRipple {
+      0% { inset: -4px; opacity: 1; }
+      100% { inset: -12px; opacity: 0; }
+    }
+    .tl-dot.active {
+      background: var(--sun); border-color: var(--sun);
+      box-shadow: 0 0 16px rgba(251,191,36,0.6);
+      animation: pulse-glow 2s ease-in-out infinite;
+    }
+    .tl-dot.active::after {
+      border-color: rgba(251,191,36,0.4);
+      animation: dotRipple 1.5s ease-out infinite;
+    }
+    @keyframes pulse-glow {
+      0%,100% { box-shadow: 0 0 8px rgba(251,191,36,0.4); transform: scale(1); }
+      50% { box-shadow: 0 0 24px rgba(251,191,36,0.8); transform: scale(1.1); }
+    }
+    .tl-line {
+      flex: 1; width: 2px; background: var(--border);
+      border-radius: 1px; min-height: 36px;
+      transition: background var(--transition-smooth);
+    }
+    .tl-line.done { background: linear-gradient(to bottom, var(--green), var(--green2)); }
+    .tl-line.partial {
+      background: linear-gradient(to bottom, var(--green), var(--border));
+    }
+    .tl-content {
+      flex: 1; padding: 2px 6px 24px;
+      transition: all var(--transition-smooth);
+    }
+    .tl-header {
+      display: flex; justify-content: space-between;
+      align-items: center; margin-bottom: 4px;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+    .tl-name {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem; font-weight: 600;
+      color: var(--bright);
+    }
+    .tl-status {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      padding: 2px 8px;
+      border-radius: 100px;
+      transition: all var(--transition-smooth);
+      font-weight: 600;
+    }
+    .tl-status.done { color: var(--green); background: rgba(52,211,153,0.1); }
+    .tl-status.active { color: var(--sun); background: rgba(251,191,36,0.1); }
+    .tl-status.wait { color: var(--muted); background: var(--surface2); }
+    .tl-date { font-size: 0.7rem; color: var(--muted); font-weight: 500; }
+    .tl-mini-bar {
+      margin-top: 6px; height: 3px;
+      background: var(--border);
+      border-radius: 2px; overflow: hidden;
+    }
+    .tl-mini-fill {
+      height: 100%; background: var(--sun);
+      border-radius: 2px; transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .tl-mini-fill.done { background: var(--green); }
+
+    .milestones {
+      display: flex; flex-direction: column; gap: 8px; margin-bottom: 32px;
+      animation: fadeInUp 0.6s 0.8s ease-out both;
+    }
+    .ms-item {
+      display: flex; align-items: center; gap: 10px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm); padding: 14px;
+      transition: all var(--transition-smooth);
+      cursor: default;
+      box-shadow: var(--shadow-card);
+    }
+    .ms-item:hover {
+      border-color: var(--border2);
+      transform: translateX(4px);
+    }
+    .ms-item.reached {
+      border-color: rgba(52,211,153,0.3);
+      background: linear-gradient(135deg, var(--surface), rgba(52,211,153,0.04));
+    }
+    .ms-item.reached:hover {
+      border-color: var(--green);
+      box-shadow: 0 0 20px rgba(52,211,153,0.15);
+    }
+    .ms-icon {
+      font-size: 1.3rem; width: 28px; text-align: center;
+      transition: transform var(--transition-smooth);
+    }
+    .ms-item.reached .ms-icon {
+      animation: iconCelebrate 0.6s ease-out;
+    }
+    @keyframes iconCelebrate {
+      0% { transform: scale(1); }
+      30% { transform: scale(1.4) rotate(10deg); }
+      100% { transform: scale(1) rotate(0deg); }
+    }
+    .ms-info { flex: 1; }
+    .ms-name { font-size: 0.85rem; color: var(--bright); font-weight: 600; }
+    .ms-days { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: var(--muted); margin-top: 4px; font-weight: 500; }
+    .ms-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem; padding: 4px 10px;
+      border-radius: 100px;
+      transition: all var(--transition-smooth);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .ms-badge.reached {
+      background: rgba(52,211,153,0.15);
+      color: var(--green);
+      border: 1px solid rgba(52,211,153,0.3);
+      animation: badgePop 0.4s ease-out;
+    }
+    @keyframes badgePop {
+      0% { transform: scale(0.8); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+    .ms-badge.waiting { background: var(--surface2); color: var(--muted); border: 1px solid var(--border); }
+
+    @media (max-width: 480px) {
+      .digit-grid { grid-template-columns: repeat(2, 1fr); }
+      .wrap { padding: 0 12px; }
     }
 
-    @keyframes blink {
-      0%, 100% { opacity: 0.6; }
-      50% { opacity: 0.15; }
+    .confetti-canvas {
+      position: fixed; inset: 0; z-index: 9999;
+      pointer-events: none;
     }
 
-    .divider {
-      width: 1px;
-      height: 40px;
-      background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.1), transparent);
-    }
-
-    .progress-wrap {
-      width: min(320px, 80vw);
-      display: flex;
-      flex-direction: column;
-      gap: 0.6rem;
-    }
-
-    .progress-meta {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .progress-meta span {
-      font-size: 0.65rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--text-secondary);
-    }
-
-    .progress-track {
-      width: 100%;
-      height: 1px;
-      background: rgba(255,255,255,0.06);
-      border-radius: 999px;
-      overflow: hidden;
-    }
-
-    .progress-fill {
-      height: 100%;
-      width: 0%;
-      background: rgba(255,255,255,0.5);
-      border-radius: 999px;
-      animation: fill 6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-    }
-
-    @keyframes fill {
-      0%   { width: 0%; }
-      30%  { width: 35%; }
-      55%  { width: 58%; }
-      80%  { width: 72%; }
-      100% { width: 80%; }
-    }
-
-    .bottom {
-      position: fixed;
-      bottom: 2rem;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      align-items: center;
-      gap: 1.5rem;
-      z-index: 1;
-    }
-
-    .bottom-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.3rem;
-    }
-
-    .bottom-item .val {
-      font-size: 0.7rem;
-      color: rgba(255,255,255,0.2);
-      letter-spacing: 0.08em;
-    }
-
-    #clock {
-      font-size: 0.7rem;
-      color: rgba(255,255,255,0.18);
-      letter-spacing: 0.15em;
-      font-weight: 400;
-      font-variant-numeric: tabular-nums;
-    }
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
   </style>
 </head>
 <body>
+<canvas class="confetti-canvas" id="confettiCanvas"></canvas>
 
-  <div class="container">
+<button class="theme-toggle" id="themeToggle" aria-label="Сменить тему">
+  <span class="theme-icon">🌙</span>
+  <span>Тема</span>
+</button>
 
-    <div class="icon-wrap">
-      <div class="icon-ring"></div>
-      <div class="icon-ring"></div>
-      <div class="icon-ring"></div>
-      <svg class="icon-svg" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="22" cy="22" r="21" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
-        <path d="M22 8v4M22 32v4M8 22h4M32 22h4" stroke="rgba(255,255,255,0.3)" stroke-width="1" stroke-linecap="round"/>
-        <path d="M13.1 13.1l2.83 2.83M28.07 28.07l2.83 2.83M13.1 30.9l2.83-2.83M28.07 15.93l2.83-2.83" stroke="rgba(255,255,255,0.15)" stroke-width="1" stroke-linecap="round"/>
-        <circle cx="22" cy="22" r="4" stroke="rgba(255,255,255,0.5)" stroke-width="1"/>
-        <circle cx="22" cy="22" r="1.5" fill="rgba(255,255,255,0.6)"/>
-      </svg>
+<div class="wrap">
+
+  <section id="hero">
+    <h1 id="mainHeading">До <span>лета</span><br>осталось</h1>
+    <p class="hero-sub" id="heroSub">1 июня … — точный отсчёт в реальном времени</p>
+    <div class="live-clock">
+      <div class="live-dot"></div>
+      сейчас <span id="clockDisp">--:--:--</span> &nbsp;·&nbsp; <span id="dateDisp">--.--.----</span>
     </div>
 
-    <div class="text-block">
-      <p class="label">Уведомление</p>
-      <h1 class="heading">Технические<span>работы</span></h1>
-      <p class="sub">Мы улучшаем систему.<br>Скоро всё вернётся в норму.</p>
-      <div class="status">
-        <span class="status-dot"></span>
-        В процессе
+    <div class="countdown-block">
+      <div class="label-row">
+        <span id="mainProgressTitle">📊 Прогресс до лета</span>
+        <span class="pct" id="pct">0.000%</span>
+      </div>
+      <div class="track"><div class="fill" id="mainFill"></div></div>
+      <div style="display:flex;justify-content:space-between;margin-top:12px;font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--muted);font-weight:500;">
+        <span id="startLabel">01.09.…</span>
+        <span id="midLabel">—</span>
+        <span id="endLabel">01.06.…</span>
       </div>
     </div>
 
-    <div class="divider"></div>
-
-    <div class="progress-wrap">
-      <div class="progress-meta">
-        <span>Прогресс</span>
-        <span id="pct">0%</span>
+    <div class="digit-grid">
+      <div class="digit-card">
+        <span class="digit-val" id="cDays">---</span>
+        <div class="digit-lbl">Дней</div>
+        <div class="digit-sub" id="dSub">—</div>
       </div>
-      <div class="progress-track">
-        <div class="progress-fill" id="fill"></div>
+      <div class="digit-card">
+        <span class="digit-val" id="cHours">--</span>
+        <div class="digit-lbl">Часов</div>
+        <div class="digit-sub" id="hSub">—</div>
+      </div>
+      <div class="digit-card">
+        <span class="digit-val" id="cMin">--</span>
+        <div class="digit-lbl">Минут</div>
+        <div class="digit-sub" id="mSub">—</div>
+      </div>
+      <div class="digit-card">
+        <span class="digit-val" id="cSec">--</span>
+        <div class="digit-lbl">Секунд</div>
+        <div class="digit-sub" id="sSub">—</div>
+      </div>
+    </div>
+
+  </section>
+
+  <div class="sec-head">☀️ Подробный баланс летнего сезона</div>
+  <div class="countdown-block" style="background: var(--surface2); border-color: var(--border2); margin-bottom: 12px;">
+    <div class="label-row">
+      <span id="summerStatusTitle">📊 Прогресс летних дней (1 июня — 31 августа)</span>
+      <span class="pct" id="summerPct" style="color: var(--sun); background: rgba(251,191,36,0.12); border-color: rgba(251,191,36,0.2);">0.0000%</span>
+    </div>
+    <div class="track" style="background: var(--surface);"><div class="fill" id="summerFill" style="background: linear-gradient(90deg, var(--sun), var(--green)); box-shadow: 0 0 12px rgba(52,211,153,0.2);"></div></div>
+    <div style="display:flex;justify-content:space-between;margin-top:12px;font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--muted);font-weight:500;">
+      <span id="summerStartLabel">01.06</span>
+      <span id="summerMidLabel">—</span>
+      <span id="summerEndLabel">31.08</span>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:24px;animation:fadeInUp 0.6s 0.7s ease-out both;">
+    <div style="background:var(--surface);border:1px solid rgba(52,211,153,0.2);border-radius:var(--radius-md);padding:16px;box-shadow:var(--shadow-card);">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--green);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;font-weight:600;">Прошло лета</div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:1rem;font-weight:700;color:var(--bright);" id="summerPassedMain">—</div>
+      <div style="font-size:0.65rem;color:var(--muted);margin-top:4px;font-weight:500;" id="summerPassedSubText">—</div>
+    </div>
+    <div style="background:var(--surface);border:1px solid rgba(96,165,250,0.2);border-radius:var(--radius-md);padding:16px;box-shadow:var(--shadow-card);">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--blue);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;font-weight:600;">Осталось лета</div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:1rem;font-weight:700;color:var(--bright);" id="summerLeftMain">—</div>
+      <div style="font-size:0.65rem;color:var(--muted);margin-top:4px;font-weight:500;" id="summerLeftSubText">—</div>
+    </div>
+  </div>
+
+  <div class="sec-head">📋 Таймлайн сезонов</div>
+  <div class="timeline">
+
+    <div class="tl-item">
+      <div class="tl-col">
+        <div class="tl-dot" id="dot-autumn"></div>
+        <div class="tl-line" id="line-autumn"></div>
+      </div>
+      <div class="tl-content">
+        <div class="tl-header">
+          <span class="tl-name">🍂 Осень</span>
+          <span class="tl-status wait" id="st-autumn">ожидание</span>
+        </div>
+        <div class="tl-date" id="date-autumn">…</div>
+        <div class="tl-mini-bar"><div class="tl-mini-fill" id="fill-autumn" style="width:0%"></div></div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-col">
+        <div class="tl-dot" id="dot-winter"></div>
+        <div class="tl-line" id="line-winter"></div>
+      </div>
+      <div class="tl-content">
+        <div class="tl-header">
+          <span class="tl-name">❄️ Зима</span>
+          <span class="tl-status wait" id="st-winter">ожидание</span>
+        </div>
+        <div class="tl-date" id="date-winter">…</div>
+        <div class="tl-mini-bar"><div class="tl-mini-fill" id="fill-winter" style="width:0%"></div></div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-col">
+        <div class="tl-dot" id="dot-spring"></div>
+        <div class="tl-line" id="line-spring"></div>
+      </div>
+      <div class="tl-content">
+        <div class="tl-header">
+          <span class="tl-name">🌸 Весна</span>
+          <span class="tl-status wait" id="st-spring">ожидание</span>
+        </div>
+        <div class="tl-date" id="date-spring">…</div>
+        <div class="tl-mini-bar"><div class="tl-mini-fill" id="fill-spring" style="width:0%"></div></div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-col">
+        <div class="tl-dot" id="dot-summer"></div>
+      </div>
+      <div class="tl-content" style="padding-bottom:0">
+        <div class="tl-header">
+          <span class="tl-name">☀️ Лето</span>
+          <span class="tl-status wait" id="st-summer">ожидание</span>
+        </div>
+        <div class="tl-date" id="date-summer">…</div>
+        <div class="tl-mini-bar"><div class="tl-mini-fill" id="fill-summer" style="width:0%"></div></div>
       </div>
     </div>
 
   </div>
 
-  <div class="bottom">
-    <div class="bottom-item">
-      <span class="val" id="clock">--:--:--</span>
-    </div>
-  </div>
+  <div class="sec-head">🎯 Цели</div>
+  <div class="milestones" id="milestones"></div>
 
-  <script>
-    function updateClock() {
-      const now = new Date();
-      const h = String(now.getHours()).padStart(2,'0');
-      const m = String(now.getMinutes()).padStart(2,'0');
-      const s = String(now.getSeconds()).padStart(2,'0');
-      document.getElementById('clock').textContent = `${h}:${m}:${s}`;
+</div>
+
+<script>
+(function() {
+  'use strict';
+
+  const themeToggle = document.getElementById('themeToggle');
+  const themeIcon = themeToggle.querySelector('.theme-icon');
+  
+  function setTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('summer-theme', theme);
+    themeIcon.textContent = theme === 'light' ? '☀️' : '🌙';
+  }
+  
+  function toggleTheme() {
+    const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    setTheme(newTheme);
+  }
+  
+  const savedTheme = localStorage.getItem('summer-theme') || 'dark';
+  setTheme(savedTheme);
+  
+  themeToggle.addEventListener('click', toggleTheme);
+
+  function getDates() {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = now.getMonth();
+
+    let cycleStartYear = (month >= 8) ? year : year - 1;
+
+    const AUTUMN      = new Date(cycleStartYear, 8, 1).getTime();
+    const WINTER      = new Date(cycleStartYear, 11, 1).getTime();
+    const SPRING      = new Date(cycleStartYear + 1, 2, 1).getTime();
+    const SUMMER      = new Date(cycleStartYear + 1, 5, 1).getTime();
+    const NEXT_AUTUMN = new Date(cycleStartYear + 1, 8, 1).getTime();
+
+    const formatDate = (ts) => {
+      const d = new Date(ts);
+      return `${String(d.getDate()).padStart(2,'0')}.${String(d.getMonth()+1).padStart(2,'0')}.${d.getFullYear()}`;
+    };
+
+    const daysBetween = (start, end) => {
+      return Math.round((end - start) / 86400000);
+    };
+
+    return {
+      AUTUMN, WINTER, SPRING, SUMMER, NEXT_AUTUMN,
+      formatDate,
+      daysBetween
+    };
+  }
+
+  let dates = getDates();
+  let lastMode = null; 
+
+  function updateAllLabels(isSummerNow, mainStart, mainEnd) {
+    const targetYear = new Date(dates.SUMMER).getFullYear();
+
+    document.getElementById('pageTitle').textContent = isSummerNow
+      ? `Лето ${targetYear} в разгаре! — Баланс сезона`
+      : `До лета ${targetYear} — Summer Countdown`;
+
+    document.getElementById('heroSub').textContent = isSummerNow
+      ? `Текущий летний сезон: 1 июня — 31 августа ${targetYear}`
+      : `1 июня ${targetYear} — точный отсчёт в реальном времени`;
+
+    document.getElementById('startLabel').textContent = dates.formatDate(mainStart);
+    document.getElementById('endLabel').textContent = dates.formatDate(mainEnd);
+
+    const autumnDays = dates.daysBetween(dates.AUTUMN, dates.WINTER);
+    const winterDays = dates.daysBetween(dates.WINTER, dates.SPRING);
+    const springDays = dates.daysBetween(dates.SPRING, dates.SUMMER);
+    const summerDays = dates.daysBetween(dates.SUMMER, dates.NEXT_AUTUMN);
+
+    document.getElementById('date-autumn').textContent =
+      `${dates.formatDate(dates.AUTUMN)} — ${dates.formatDate(dates.WINTER)} · ${autumnDays} дн.`;
+    document.getElementById('date-winter').textContent =
+      `${dates.formatDate(dates.WINTER)} — ${dates.formatDate(dates.SPRING)} · ${winterDays} дн.`;
+    document.getElementById('date-spring').textContent =
+      `${dates.formatDate(dates.SPRING)} — ${dates.formatDate(dates.SUMMER)} · ${springDays} дн.`;
+    document.getElementById('date-summer').textContent =
+      `${dates.formatDate(dates.SUMMER)} — ${dates.formatDate(dates.NEXT_AUTUMN)} · ${summerDays} дн.`;
+
+    document.getElementById('summerStartLabel').textContent = dates.formatDate(dates.SUMMER).slice(0, 5);
+    document.getElementById('summerEndLabel').textContent = dates.formatDate(dates.NEXT_AUTUMN).slice(0, 5);
+    
+    const sMidTs = dates.SUMMER + (dates.NEXT_AUTUMN - dates.SUMMER) / 2;
+    const sMidDate = new Date(sMidTs);
+    document.getElementById('summerMidLabel').textContent = `50% · ${String(sMidDate.getDate()).padStart(2,'0')}.${String(sMidDate.getMonth()+1).padStart(2,'0')}`;
+  }
+
+  function getActiveGoals(isSummer, daysLeft) {
+    if (isSummer) {
+      return [
+        { days: 80, icon: '☀️', name: '80 дней лета впереди' },
+        { days: 60, icon: '🌊', name: '60 дней прекрасного лета' },
+        { days: 46, icon: '🍉', name: 'Экватор! Половина лета позади' },
+        { days: 30, icon: '🌅', name: '30 дней до наступления осени' },
+        { days: 14, icon: '🍂', name: '2 недели до конца сезона' },
+        { days: 7,  icon: '🎒', name: 'Последняя неделя лета' },
+        { days: 1,  icon: '🍁', name: 'Финальный день лета' },
+      ];
+    } else {
+      return [
+        { days: 200, icon: '📅', name: '200 дней до лета' },
+        { days: 150, icon: '🗓️', name: '150 дней до лета' },
+        { days: 100, icon: '💯', name: '100 дней до лета' },
+        { days: 90,  icon: '3️⃣', name: '90 дней до лета' },
+        { days: 60,  icon: '2️⃣', name: '60 дней до лета' },
+        { days: 30,  icon: '1️⃣', name: '30 дней до лета' },
+        { days: 14,  icon: '🔥', name: '2 недели до лета' },
+        { days: 7,   icon: '⚡', name: '1 неделя до лета' },
+        { days: 1,   icon: '🌅', name: '1 день до лета' },
+      ];
     }
-    updateClock();
-    setInterval(updateClock, 1000);
+  }
 
-    const fill = document.getElementById('fill');
-    const pct = document.getElementById('pct');
-    const totalMs = 6000;
+  let summerArrived = false;
+  let confettiLaunched = false;
 
-    let start = null;
-    const keyframes = [
-      { t: 0,    v: 0  },
-      { t: 0.30, v: 35 },
-      { t: 0.55, v: 58 },
-      { t: 0.80, v: 72 },
-      { t: 1.00, v: 80 },
-    ];
+  const canvas = document.getElementById('confettiCanvas');
+  const ctx = canvas.getContext('2d');
+  let particles = [];
+  let animationId = null;
 
-    function lerp(a, b, t) { return a + (b - a) * t; }
+  function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
 
-    function easeInOut(t) { return t < 0.5 ? 2*t*t : -1+(4-2*t)*t; }
+  function launchConfetti() {
+    if (confettiLaunched) return;
+    confettiLaunched = true;
+    resizeCanvas();
+    particles = [];
+    const colors = ['#fbbf24','#f59e0b','#34d399','#60a5fa','#a78bfa','#f87171','#fde68a','#fb923c'];
+    for (let i = 0; i < 200; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height - canvas.height,
+        r: Math.random() * 6 + 3,
+        d: Math.random() * 20 + 10,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        tilt: Math.random() * 10 - 10,
+        tiltAngle: Math.random() * Math.PI * 2,
+        tiltAngleIncrement: Math.random() * 0.07 + 0.05,
+        rotation: Math.random() * 360,
+        rotationSpeed: (Math.random() - 0.5) * 4,
+        opacity: 1,
+      });
+    }
+    if (!animationId) animateConfetti();
+  }
 
-    function animatePct(timestamp) {
-      if (!start) start = timestamp;
-      const elapsed = (timestamp - start) / totalMs;
-      const progress = Math.min(elapsed, 1);
+  function animateConfetti() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles = particles.filter(p => p.y < canvas.height + 50 && p.opacity > 0);
+    particles.forEach(p => {
+      p.tiltAngle += p.tiltAngleIncrement;
+      p.y += (Math.cos(p.d) + 3);
+      p.x += Math.sin(p.tiltAngle) * 0.5;
+      p.tilt = Math.sin(p.tiltAngle - p.d/3) * 12;
+      p.rotation += p.rotationSpeed;
+      p.opacity -= 0.002;
+      ctx.save();
+      ctx.translate(p.x + p.tilt, p.y);
+      ctx.rotate(p.rotation * Math.PI / 180);
+      ctx.globalAlpha = Math.max(0, p.opacity);
+      ctx.fillStyle = p.color;
+      ctx.fillRect(-p.r/2, -p.r/2, p.r, p.r);
+      ctx.restore();
+    });
+    if (particles.length > 0) {
+      animationId = requestAnimationFrame(animateConfetti);
+    } else {
+      animationId = null;
+      confettiLaunched = false;
+    }
+  }
 
-      let value = 0;
-      for (let i = 1; i < keyframes.length; i++) {
-        const prev = keyframes[i - 1];
-        const curr = keyframes[i];
-        if (progress <= curr.t) {
-          const seg = (progress - prev.t) / (curr.t - prev.t);
-          value = lerp(prev.v, curr.v, easeInOut(seg));
-          break;
-        }
-        value = curr.v;
-      }
+  function renderGoals(isSummer, daysLeft) {
+    const el = document.getElementById('milestones');
+    const activeGoals = getActiveGoals(isSummer, daysLeft);
 
-      pct.textContent = Math.round(value) + '%';
+    el.innerHTML = '';
+    activeGoals.forEach((m, index) => {
+      const reached = daysLeft <= m.days;
 
-      if (progress < 1) {
-        requestAnimationFrame(animatePct);
-      }
+      const div = document.createElement('div');
+      div.className = 'ms-item' + (reached ? ' reached' : '');
+      div.style.animationDelay = `${index * 0.05}s`;
+      div.innerHTML = `
+        <div class="ms-icon">${m.icon}</div>
+        <div class="ms-info">
+          <div class="ms-name">${m.name}</div>
+          <div class="ms-days">${reached ? `✅ выполнено!` : `⏳ ещё ${daysLeft - m.days} дн. до цели`}</div>
+        </div>
+        <span class="ms-badge ${reached ? 'reached' : 'waiting'}">${reached ? '✓ ВЫПОЛНЕНО' : 'В ОЖИДАНИИ'}</span>`;
+      el.appendChild(div);
+    });
+  }
+
+  function countWorkWeekdays(fromMs, toMs) {
+    let workdays = 0, weekends = 0;
+    const oneDay = 86400000;
+    let cur = fromMs;
+    const end = toMs;
+
+    const startDay = new Date(cur);
+    startDay.setHours(0, 0, 0, 0);
+    cur = startDay.getTime();
+
+    while (cur < end) {
+      const d = new Date(cur).getDay();
+      if (d === 0 || d === 6) weekends++; else workdays++;
+      cur += oneDay;
+    }
+    return { workdays, weekends };
+  }
+
+  function setSeason(id, start, end) {
+    const now = Date.now();
+    const dot = document.getElementById('dot-' + id);
+    const status = document.getElementById('st-' + id);
+    const fill = document.getElementById('fill-' + id);
+    const line = document.getElementById('line-' + id);
+
+    if (!dot || !status) return;
+
+    if (now < start) {
+      dot.className = 'tl-dot';
+      status.className = 'tl-status wait';
+      status.textContent = 'ожидание';
+      if (fill) fill.style.width = '0%';
+      if (line) line.className = 'tl-line';
+    } else if (now >= start && now < end) {
+      dot.className = 'tl-dot active';
+      const pct = Math.min(100, ((now - start) / (end - start) * 100));
+      status.className = 'tl-status active';
+      status.textContent = `идёт · ${pct.toFixed(0)}%`;
+      if (fill) { fill.className = 'tl-mini-fill'; fill.style.width = pct.toFixed(1) + '%'; }
+      if (line) line.className = 'tl-line partial';
+    } else {
+      dot.className = 'tl-dot done';
+      status.className = 'tl-status done';
+      status.textContent = 'завершено ✓';
+      if (fill) { fill.className = 'tl-mini-fill done'; fill.style.width = '100%'; }
+      if (line) line.className = 'tl-line done';
+    }
+  }
+
+  let prevSec = -1;
+  let lastDateCheck = 0;
+
+  function update() {
+    const now = Date.now();
+
+    if (now - lastDateCheck > 60000 || lastDateCheck === 0) {
+      dates = getDates();
+      lastDateCheck = now;
     }
 
-    requestAnimationFrame(animatePct);
-  </script>
+    const isSummerNow = (now >= dates.SUMMER && now < dates.NEXT_AUTUMN);
 
+    const mainStart = isSummerNow ? dates.SUMMER : dates.AUTUMN;
+    const mainEnd   = isSummerNow ? dates.NEXT_AUTUMN : dates.SUMMER;
+    const mainTotal = mainEnd - mainStart;
+    
+    const diff = Math.max(0, mainEnd - now);
+
+    if (isSummerNow !== lastMode) {
+      lastMode = isSummerNow;
+      const heading = document.getElementById('mainHeading');
+      const progressTitle = document.getElementById('mainProgressTitle');
+
+      if (isSummerNow) {
+        heading.innerHTML = `До конца <span>лета</span><br>осталось`;
+        progressTitle.textContent = `📊 До завершения лета`;
+      } else {
+        heading.innerHTML = `До <span>лета</span><br>осталось`;
+        progressTitle.textContent = `📊 Прогресс до лета`;
+      }
+      updateAllLabels(isSummerNow, mainStart, mainEnd);
+    }
+
+    const curSec = Math.floor(diff / 1000) % 60;
+    if (curSec !== prevSec) {
+      const el = document.getElementById('cSec');
+      if (el) {
+        el.classList.add('bump');
+        setTimeout(() => el.classList.remove('bump'), 150);
+      }
+      prevSec = curSec;
+    }
+
+    const totalSecs = Math.floor(diff / 1000);
+    const days   = Math.floor(totalSecs / 86400);
+    const hours  = Math.floor(totalSecs / 3600) % 24;
+    const mins   = Math.floor(totalSecs / 60) % 60;
+    const secs   = totalSecs % 60;
+
+    document.getElementById('cDays').textContent = days;
+    document.getElementById('cHours').textContent = String(hours).padStart(2,'0');
+    document.getElementById('cMin').textContent = String(mins).padStart(2,'0');
+    document.getElementById('cSec').textContent = String(secs).padStart(2,'0');
+
+    const totalHours = Math.floor(diff / 3600000);
+    const totalMins  = Math.floor(diff / 60000);
+
+    document.getElementById('dSub').textContent = `${Math.floor(days/7)} нед. ${days % 7} дн.`;
+    document.getElementById('hSub').textContent = `${totalHours.toLocaleString('ru')} ч. всего`;
+    document.getElementById('mSub').textContent = `${totalMins.toLocaleString('ru')} мин. всего`;
+    document.getElementById('sSub').textContent = `${totalSecs.toLocaleString('ru')} сек. всего`;
+
+    const passed = now - mainStart;
+    const progress = Math.min(100, Math.max(0, passed / mainTotal * 100));
+    document.getElementById('mainFill').style.width = progress + '%';
+    document.getElementById('pct').textContent = progress.toFixed(3) + '%';
+
+    const midTs = mainStart + mainTotal / 2;
+    const midDate = new Date(midTs);
+    document.getElementById('midLabel').textContent = `50% · ${midDate.getDate().toString().padStart(2,'0')}.${(midDate.getMonth()+1).toString().padStart(2,'0')}`;
+
+    const totalSummer = dates.NEXT_AUTUMN - dates.SUMMER;
+    let summerPassedMs = 0;
+    let summerLeftMs = totalSummer;
+
+    if (now < dates.SUMMER) {
+      summerPassedMs = 0;
+      summerLeftMs = totalSummer;
+      document.getElementById('summerStatusTitle').textContent = "📊 Лето еще не началось (В ожидании)";
+    } else if (now >= dates.NEXT_AUTUMN) {
+      summerPassedMs = totalSummer;
+      summerLeftMs = 0;
+      document.getElementById('summerStatusTitle').textContent = "📊 Лето полностью завершилось";
+    } else {
+      summerPassedMs = now - dates.SUMMER;
+      summerLeftMs = dates.NEXT_AUTUMN - now;
+      document.getElementById('summerStatusTitle').textContent = "📊 Лето в самом разгаре (Идёт)";
+    }
+
+    const sPassedPct = (summerPassedMs / totalSummer) * 100;
+    const sLeftPct = (summerLeftMs / totalSummer) * 100;
+
+    const spSecs = Math.floor(summerPassedMs / 1000);
+    const spDays = Math.floor(spSecs / 86400);
+    const spHours = Math.floor(spSecs / 3600) % 24;
+    const spMins = Math.floor(spSecs / 60) % 60;
+
+    const slSecs = Math.floor(summerLeftMs / 1000);
+    const slDays = Math.floor(slSecs / 86400);
+    const slHours = Math.floor(slSecs / 3600) % 24;
+    const slMins = Math.floor(slSecs / 60) % 60;
+
+    document.getElementById('summerPct').textContent = sPassedPct.toFixed(4) + '%';
+    document.getElementById('summerFill').style.width = sPassedPct + '%';
+
+    document.getElementById('summerPassedMain').textContent = `${spDays} дн. ${String(spHours).padStart(2,'0')} ч. ${String(spMins).padStart(2,'0')} мин.`;
+    document.getElementById('summerPassedSubText').textContent = `${sPassedPct.toFixed(2)}% прошло | Всего: ${spSecs.toLocaleString('ru')} сек.`;
+
+    document.getElementById('summerLeftMain').textContent = `${slDays} дн. ${String(slHours).padStart(2,'0')} ч. ${String(slMins).padStart(2,'0')} мин.`;
+    document.getElementById('summerLeftSubText').textContent = `${sLeftPct.toFixed(2)}% осталось | Всего: ${slSecs.toLocaleString('ru')} сек.`;
+
+    const dt = new Date();
+    const formatTime = dt.toLocaleTimeString('ru-RU', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    const formatDateStr = `${String(dt.getDate()).padStart(2,'0')}.${String(dt.getMonth()+1).padStart(2,'0')}.${dt.getFullYear()}`;
+
+    document.getElementById('clockDisp').textContent = formatTime;
+    document.getElementById('dateDisp').textContent = formatDateStr;
+
+    setSeason('autumn', dates.AUTUMN, dates.WINTER);
+    setSeason('winter', dates.WINTER, dates.SPRING);
+    setSeason('spring', dates.SPRING, dates.SUMMER);
+    setSeason('summer', dates.SUMMER, dates.NEXT_AUTUMN);
+
+    if (now >= dates.SUMMER && now < dates.NEXT_AUTUMN) {
+      if (!summerArrived) {
+        summerArrived = true;
+        launchConfetti();
+      }
+    } else {
+      summerArrived = false;
+    }
+
+    renderGoals(isSummerNow, days);
+  }
+
+  update();
+  setInterval(update, 1000);
+
+})();
+</script>
 </body>
 </html>
